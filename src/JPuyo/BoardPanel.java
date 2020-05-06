@@ -9,31 +9,28 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 /**
  *
  * @author ACER
  */
-public class DisplayBoard extends JPanel {
+public class BoardPanel extends JPanel {
 
     private Board board;
     private final int leftMargin = 0, rightMargin = 0, supMargin = 0, infMargin = 0, vGap = 0, hGap = 0;
     private int width, height;
 
-    public DisplayBoard() {
+    public BoardPanel() {
         this(8, 12);
-        this.board = new Board(8, 12);
+        
     }
 
-    public DisplayBoard(int w, int h) {
+    public BoardPanel(int w, int h) {
         height = (20 + vGap) * (h) + supMargin + infMargin;
         width = (20 + hGap) * (w) + leftMargin + rightMargin + 16 * 16;
         setVisible(true);
+        this.board = new Board(w, h);
     }
 
     @Override
@@ -88,19 +85,7 @@ public class DisplayBoard extends JPanel {
         g2d.drawImage(image, y, x, this);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        DisplayBoard t = new DisplayBoard();
-        new Images();
-        t.board.randomFill();
-        JFrame f = new JFrame("Puyo-Puyo");
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setSize(t.getWidth(), t.getHeight() + 7);
-        f.show();
-        f.getContentPane().add(t);
-
-    }
-
-    public static BufferedImage[][] getSprites(Board board) {
+    public BufferedImage[][] getSprites(Board board) {
         BufferedImage image, sprites[][] = new BufferedImage[board.getHeight()][board.getWidth()];
 
         for (int i = 0; i < board.getHeight(); i++) {

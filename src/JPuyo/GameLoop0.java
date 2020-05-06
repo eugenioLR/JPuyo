@@ -15,48 +15,38 @@ import javax.swing.*;
  *
  * @author ACER
  */
-public class GameLoop {
+public class GameLoop0 extends Thread{
 
     /**
      * @param args the command line arguments
      */
     private static final int WIDTH = 8, HEIGHT = 12;//, FRAMERATE = 60;
     private static int FRAMERATE;
-    private static long timer, score;
+    private long timer, score;
     private static final char COLORS[] = {'B', 'G', 'Y', 'O', 'R', 'P'};//, 'X'};
-    private static JFrame mainFrame = new JFrame("Puyo-Puyo");
-    private static BoardPanel gamePanel = new BoardPanel(WIDTH, HEIGHT);
-    private static KeyManager keym = new KeyManager();
-    //private static StartMenu menu = new StartMenu();
-
-    public static void main(String[] args) throws InterruptedException {
+    private final BoardPanel gamePanel;
+    private final JLabel pointsLabel;
+    private final GameWindow gw;
+    private final KeyManager keym;
+    
+    public GameLoop0(GameWindow gw){
+        this.gw = gw;
+        this.gamePanel = gw.getBoardPanel();
+        this.pointsLabel = gw.getPointsLabel();
+        this.keym = new KeyManager();
+    }
+    
+    @Override
+    public void run(){
         try {
-            if (args.length > 0) {
-                FRAMERATE = Integer.parseInt(args[0]);
-            } else {
-                FRAMERATE = 30;
-            }
-            new Images();
-            mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            mainFrame.setSize(20 * WIDTH + 16 * 16, 20 * HEIGHT + 7);
-            mainFrame.setVisible(true);
-            mainFrame.getContentPane().add(gamePanel);
-
-            mainFrame.addKeyListener(keym);
-            //menu.setVisible(true);
-            //mainFrame.getContentPane().add(gamePanel);
+            FRAMERATE = 30;
+            gw.addKeyListener(keym);
             singleBlockGame();
-            //dualBlockGame();
-        } catch (IOException ex) {
-            Logger.getLogger(GameLoop.class.getName()).log(Level.SEVERE, null, ex);
-        }catch(NumberFormatException nfe){
-            System.out.println(nfe);
-            String[] empty = {};
-            main(empty);
-        }
+        } catch (InterruptedException | IOException ex) {}
     }
 
-    public static void singleBlockGame() throws InterruptedException, IOException {
+
+    public void singleBlockGame() throws InterruptedException, IOException {
         Board board = new Board(WIDTH, HEIGHT);
         Block currentBlock = null;
         Block checkingBlock;
@@ -65,15 +55,14 @@ public class GameLoop {
         boolean lose = false;
 
         gamePanel.setBoard(board);
-        gamePanel.setVisible(true);
         for (timer = 0; !lose; timer++) {
-            Thread.sleep(1);
+            sleep(1);
             if (timer % (1000 / FRAMERATE) == 0) {
 
                 if (((timer / 5) % (1000 / (FRAMERATE))) == 0) {
                     score++;
 
-                    //System.out.print("\nScore:" + score);
+                    pointsLabel.setText("\nScore:" + score);
                     if (currentBlock != null) {
                         currentBlock.fall();
                     }
@@ -101,7 +90,9 @@ public class GameLoop {
                     }
                 }
                 gamePanel.setBoard(board);
+                //board.drawTerminal();
                 gamePanel.repaint();
+                gw.repaint();
             }
         }
         System.out.println("YOU LOSE, SCORE: " + score);
@@ -131,47 +122,23 @@ public class GameLoop {
     }
 
     public static void setFRAMERATE(int FRAMERATE) {
-        GameLoop.FRAMERATE = FRAMERATE;
+        GameLoop0.FRAMERATE = FRAMERATE;
     }
 
-    public static long getTimer() {
+    public long getTimer() {
         return timer;
     }
 
-    public static void setTimer(long timer) {
-        GameLoop.timer = timer;
+    public void setTimer(long timer) {
+        this.timer = timer;
     }
 
-    public static long getScore() {
+    public long getScore() {
         return score;
     }
 
-    public static void setScore(long score) {
-        GameLoop.score = score;
-    }
-
-    public static JFrame getMainFrame() {
-        return mainFrame;
-    }
-
-    public static void setMainFrame(JFrame mainFrame) {
-        GameLoop.mainFrame = mainFrame;
-    }
-
-    public static BoardPanel getGamePanel() {
-        return gamePanel;
-    }
-
-    public static void setGamePanel(BoardPanel gamePanel) {
-        GameLoop.gamePanel = gamePanel;
-    }
-
-    public static KeyManager getKeym() {
-        return keym;
-    }
-
-    public static void setKeym(KeyManager keym) {
-        GameLoop.keym = keym;
+    public void setScore(long score) {
+        this.score = score;
     }
     
     

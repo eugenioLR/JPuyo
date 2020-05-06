@@ -17,17 +17,17 @@ public class BlockDuo {
 
     public BlockDuo(int x, int y) {
         this.pivot = new Block(GameLoop.getCOLORS()[GameLoop.randInt(0, GameLoop.getCOLORS().length - 1)], x, y);
-        this.extension = new Block(GameLoop.getCOLORS()[GameLoop.randInt(0, GameLoop.getCOLORS().length - 1)], x, y + 1);
+        this.extension = new Block(GameLoop.getCOLORS()[GameLoop.randInt(0, GameLoop.getCOLORS().length - 1)], x, y - 1);
         this.board = pivot.getBoard();
-        degrees = 180;
+        degrees = 90;
     }
 
     public BlockDuo(Block pivot, Block exension) {
         this.pivot = pivot;
         this.extension = exension;
         this.extension.setPositionX(this.pivot.getPositionX());
-        this.extension.setPositionY(this.pivot.getPositionY() + 1);
-        degrees = 180;
+        this.extension.setPositionY(this.pivot.getPositionY() - 1);
+        degrees = 90;
     }
 
     public int getDegrees() {
@@ -35,79 +35,85 @@ public class BlockDuo {
     }
 
     public void setDegrees(int degrees) {
-        this.degrees = degrees;
+        this.degrees = degrees % 360;
     }
 
     public Block getPivot() {
-        return pivot;
+        return this.pivot;
     }
 
     public Block getExtension() {
-        return extension;
+        return this.extension;
     }
 
     public void right() {
-        if (degrees == 0) {
-            if(extension.right())
-                pivot.right();
+        if (this.degrees == 0) {
+            if (this.extension.right()) {
+                this.pivot.right();
+            }
         } else {
-            if(pivot.right())
-                extension.right();
+            if (this.pivot.right()) {
+                this.extension.right();
+            }
         }
     }
 
     public void left() {
-        if (degrees == 180) {
-            if(extension.left())
-                pivot.left();
+        if (this.degrees == 180) {
+            if (this.extension.left()) {
+                this.pivot.left();
+            }
         } else {
-            if(pivot.left())
-                extension.left();
+            if (this.pivot.left()) {
+                this.extension.left();
+            }
         }
     }
 
     public void rotateR() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        degrees = (degrees + 90) % 360;
-        int pos2[] = pivot.getPosition();
-        pos2[0] += pos[degrees / 90][0];
-        pos2[1] += pos[degrees / 90][1];
-        extension.setPosition(pos2);
+        this.degrees = (this.degrees + 90) % 360;
+        int pos2[] = this.pivot.getPosition();
+        pos2[0] += pos[this.degrees / 90][0];
+        pos2[1] += pos[this.degrees / 90][1];
+        this.extension.setPosition(pos2);
     }
 
     public void rotateL() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        degrees = (degrees + 270) % 360;
-        int pos2[] = pivot.getPosition();
-        pos2[0] += pos[degrees / 90][0];
-        pos2[1] += pos[degrees / 90][1];
-        extension.setPosition(pos2);
+        this.degrees = (this.degrees - 90) % 360;
+        int pos2[] = this.pivot.getPosition();
+        pos2[0] += pos[this.degrees / 90][0];
+        pos2[1] += pos[this.degrees / 90][1];
+        this.extension.setPosition(pos2);
     }
 
     public void fall() {
-        if (degrees == 270) {
-            if(extension.fall())
-                pivot.fall();
+        if (this.degrees == 270) {
+            if (this.extension.fall()) {
+                this.pivot.fall();
+            }
         } else {
-            if(pivot.fall())
-                extension.fall();
+            if (this.pivot.fall()) {
+                this.extension.fall();
+            }
         }
     }
 
     public void drop() {
-        if (degrees == 270) {
-            extension.drop();
-            pivot.drop();
+        if (this.degrees == 270) {
+            this.extension.drop();
+            this.pivot.drop();
         } else {
-            pivot.drop();
-            extension.drop();
+            this.pivot.drop();
+            this.extension.drop();
         }
     }
-    
-    public void upadate(){
-        board.placeInBoard(pivot);
-        board.placeInBoard(extension);
-        if(!pivot.isActive() || !extension.isActive()){
+
+    public void upadate() {
+        this.board.placeInBoard(this.pivot);
+        this.board.placeInBoard(this.extension);
+        if (!this.pivot.isActive() || !this.extension.isActive()) {
             drop();
         }
     }

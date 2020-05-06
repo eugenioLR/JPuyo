@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
  *
  * @author ACER
  */
-public class Images {
+public final class Images {
     public static BufferedImage blue;
     public static BufferedImage purple;
     public static BufferedImage red;
@@ -28,6 +28,10 @@ public class Images {
     
 
     public Images() {
+        this.init();
+    }
+    
+    public void init(){
         try {
             blue = ImageIO.read(getClass().getClassLoader().getResource("res/Blue.png"));
             clear = ImageIO.read(getClass().getClassLoader().getResource("res/Clear.png"));
