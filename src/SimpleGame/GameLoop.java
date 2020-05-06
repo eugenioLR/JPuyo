@@ -25,7 +25,7 @@ public class GameLoop extends Thread{
     private static final int WIDTH = 8, HEIGHT = 12;//, FRAMERATE = 60;
     private static int FRAMERATE;
     private long timer, score;
-    private static final char COLORS[] = {'B', 'G', 'Y', 'O', 'R', 'P'};//, 'X'};
+    private static final char COLORS[] = {'B', 'G', 'Y', 'O', 'R', 'P', 'X'};
     private final BoardPanel gamePanel;
     private final JLabel pointsLabel;
     private final GameWindow gw;
@@ -41,7 +41,7 @@ public class GameLoop extends Thread{
     @Override
     public void run(){
         try {
-            FRAMERATE = 30;
+            FRAMERATE = 60;
             gw.addKeyListener(keym);
             singleBlockGame();
         } catch (InterruptedException | IOException ex) {}
@@ -61,7 +61,7 @@ public class GameLoop extends Thread{
             sleep(1);
             if (timer % (1000 / FRAMERATE) == 0) {
 
-                if (((timer / 5) % (1000 / (FRAMERATE))) == 0) {
+                if (((timer / 10) % (1000 / (FRAMERATE))) == 0) {
                     score++;
 
                     pointsLabel.setText("\nScore:" + score);

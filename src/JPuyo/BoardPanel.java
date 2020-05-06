@@ -5,6 +5,7 @@
  */
 package JPuyo;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -23,7 +24,6 @@ public class BoardPanel extends JPanel {
 
     public BoardPanel() {
         this(8, 12);
-        
     }
 
     public BoardPanel(int w, int h) {
@@ -31,6 +31,7 @@ public class BoardPanel extends JPanel {
         width = (20 + hGap) * (w) + leftMargin + rightMargin + 16 * 16;
         setVisible(true);
         this.board = new Board(w, h);
+        setBackground(Color.decode("#0F0F0F"));
     }
 
     @Override
@@ -71,12 +72,12 @@ public class BoardPanel extends JPanel {
                 drawSprite(sprite, image, i, j);
                 j += 16 + hGap;
             }
-            for (int k = j; k < j + (16 + vGap) * 16; k += 16 + vGap) {
+            for (int k = j; k <= j + (16 + vGap) * 16; k += 16 + vGap) {
                 drawSprite(sprite, Images.wall2, i, k);
             }
             i += 16 + vGap;
         }
-        for (j = 0; j < width - (16 + vGap); j += 16 + vGap) {
+        for (j = 0; j <= width - (16 + vGap); j += 16 + vGap) {
             drawSprite(sprite, Images.wall2, i, j);
         }
     }

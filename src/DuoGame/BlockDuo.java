@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -76,7 +76,7 @@ public class BlockDuo {
 
     public void rotateR() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        this.degrees = (this.degrees + 90) % 360;
+        this.degrees = (this.degrees - 90) % 360;
         int pos2[] = this.pivot.getPosition();
         pos2[0] += pos[this.degrees / 90][0];
         pos2[1] += pos[this.degrees / 90][1];
@@ -85,7 +85,7 @@ public class BlockDuo {
 
     public void rotateL() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        this.degrees = (this.degrees - 90) % 360;
+        this.degrees = (this.degrees + 90) % 360;
         int pos2[] = this.pivot.getPosition();
         pos2[0] += pos[this.degrees / 90][0];
         pos2[1] += pos[this.degrees / 90][1];

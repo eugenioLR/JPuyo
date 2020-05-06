@@ -5,10 +5,8 @@
  */
 package JPuyo;
 
-import SimpleGame.GameWindow;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import SimpleGame.*;
+import DuoGame.*;
 /**
  *
  * @author eugeniolr
@@ -34,7 +32,7 @@ public class MenuWindow extends javax.swing.JFrame {
         Start = new javax.swing.JButton();
         Options = new javax.swing.JButton();
         Exit = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        Title = new javax.swing.JLabel();
         StartDuo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,10 +58,10 @@ public class MenuWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("DejaVu Sans", 0, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("JPuyo");
-        jLabel1.setToolTipText("");
+        Title.setFont(new java.awt.Font("DejaVu Sans", 0, 36)); // NOI18N
+        Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Title.setText("JPuyo");
+        Title.setToolTipText("");
 
         StartDuo.setText("Duo Game");
         StartDuo.addActionListener(new java.awt.event.ActionListener() {
@@ -81,7 +79,7 @@ public class MenuWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(200, 200, 200)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Exit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Options, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
@@ -95,7 +93,7 @@ public class MenuWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(60, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Start)
@@ -107,7 +105,7 @@ public class MenuWindow extends javax.swing.JFrame {
                 .addGap(66, 66, 66))
         );
 
-        jLabel1.getAccessibleContext().setAccessibleName("Title");
+        Title.getAccessibleContext().setAccessibleName("Title");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -130,7 +128,9 @@ public class MenuWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitActionPerformed
 
     private void StartDuoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartDuoActionPerformed
-        // TODO add your handling code here:
+        GameWindowDuo gw = new GameWindowDuo();
+        gw.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_StartDuoActionPerformed
 
     /**
@@ -173,6 +173,6 @@ public class MenuWindow extends javax.swing.JFrame {
     private javax.swing.JButton Options;
     private javax.swing.JButton Start;
     private javax.swing.JButton StartDuo;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel Title;
     // End of variables declaration//GEN-END:variables
 }

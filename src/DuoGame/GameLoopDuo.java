@@ -30,10 +30,10 @@ public class GameLoopDuo extends Thread{
     private static final char COLORS[] = {'B', 'G', 'Y', 'O', 'R', 'P'};//, 'X'};
     private final BoardPanel gamePanel;
     private final JLabel pointsLabel;
-    private final GameWindow gw;
+    private final GameWindowDuo gw;
     private final KeyManager keym;
     
-    public GameLoopDuo(GameWindow gw){
+    public GameLoopDuo(GameWindowDuo gw){
         this.gw = gw;
         this.gamePanel = gw.getBoardPanel();
         this.pointsLabel = gw.getPointsLabel();
