@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package JPuyo;
+package DuoGame;
+
+import JPuyo.Block;
+import JPuyo.Board;
+import SimpleGame.GameLoop;
 
 /**
  *

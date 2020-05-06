@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package JPuyo;
+package SimpleGame;
+
+import JPuyo.BoardPanel;
+import JPuyo.Images;
 
 /**
  *
@@ -24,7 +27,7 @@ public class GameWindow extends javax.swing.JFrame {
     private void prepareGame(){
         new Images();
         this.boardPanel = new BoardPanel(8, 12);
-        GameLoop0 gl = new GameLoop0(this);
+        GameLoop gl = new GameLoop(this);
         this.add(boardPanel);
         gl.start();
     }

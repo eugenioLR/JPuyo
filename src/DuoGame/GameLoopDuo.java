@@ -3,19 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package JPuyo;
+package DuoGame;
 
+import SimpleGame.*;
+import JPuyo.Block;
+import JPuyo.Board;
+import JPuyo.BoardPanel;
+import SimpleGame.GameWindow;
+import SimpleGame.KeyManager;
 import java.io.IOException;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
  *
  * @author ACER
  */
-public class GameLoop0 extends Thread{
+public class GameLoopDuo extends Thread{
 
     /**
      * @param args the command line arguments
@@ -29,7 +33,7 @@ public class GameLoop0 extends Thread{
     private final GameWindow gw;
     private final KeyManager keym;
     
-    public GameLoop0(GameWindow gw){
+    public GameLoopDuo(GameWindow gw){
         this.gw = gw;
         this.gamePanel = gw.getBoardPanel();
         this.pointsLabel = gw.getPointsLabel();
@@ -122,7 +126,7 @@ public class GameLoop0 extends Thread{
     }
 
     public static void setFRAMERATE(int FRAMERATE) {
-        GameLoop0.FRAMERATE = FRAMERATE;
+        GameLoopDuo.FRAMERATE = FRAMERATE;
     }
 
     public long getTimer() {

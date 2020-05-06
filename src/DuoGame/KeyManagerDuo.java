@@ -3,28 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package JPuyo;
+package DuoGame;
 
 /**
  *
  * @author ACER
  */
+import DuoGame.BlockDuo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyManager implements KeyListener {
+public class KeyManagerDuo implements KeyListener {
 
-    private Block currentBlock;
+    private BlockDuo currentBlock;
 
-    public KeyManager() {
+    public KeyManagerDuo() {
         super();
     }
 
-    public Block getCurrentBlock() {
+    public BlockDuo getCurrentBlock() {
         return currentBlock;
     }
 
-    public void setCurrentBlock(Block currentBlock) {
+    public void setCurrentBlock(BlockDuo currentBlock) {
         this.currentBlock = currentBlock;
     }
 
@@ -48,6 +49,12 @@ public class KeyManager implements KeyListener {
                     break;
                 case 'w':
                     currentBlock.drop();
+                    break;
+                case 'q':
+                    currentBlock.rotateL();
+                    break;
+                case 'e':
+                    currentBlock.rotateR();
                     break;
             }
         }

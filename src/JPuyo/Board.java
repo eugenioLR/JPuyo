@@ -5,6 +5,8 @@
  */
 package JPuyo;
 
+import DuoGame.BlockDuo;
+import SimpleGame.GameLoop;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,7 +16,7 @@ import java.util.Arrays;
  */
 public class Board {
 
-    private Block board[][];
+    private final Block board[][];
     private int width, height;
 
     public Board(int width, int height) {
@@ -167,10 +169,7 @@ public class Board {
                 }
 
                 if (!alreadyIn) {
-                    if (true) {
-                        sameColorChain(checkingBlock, posChecked);
-                    } else {
-                    }
+                    sameColorChain(checkingBlock, posChecked);
                 }
             }
         }

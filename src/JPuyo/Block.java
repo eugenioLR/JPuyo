@@ -5,6 +5,8 @@
  */
 package JPuyo;
 
+import SimpleGame.GameLoop;
+
 /**
  *
  * @author Eugenio
