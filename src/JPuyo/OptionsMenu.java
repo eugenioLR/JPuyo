@@ -5,7 +5,11 @@
  */
 package JPuyo;
 
-import javax.swing.JFrame;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -19,6 +23,87 @@ public class OptionsMenu extends javax.swing.JFrame {
      */
     public OptionsMenu() {
         initComponents();
+        setupConfig();
+    }
+    
+    private void setupConfig(){
+        String currentLine;
+        String tokens[];
+        try {
+            File configFile = new File("jpuyo.conf");
+            if(!configFile.exists()){
+                configFile.createNewFile();
+            }
+            Scanner scanner = new Scanner(configFile);
+            while(scanner.hasNextLine()){
+                currentLine = scanner.nextLine();
+                //the line starts with 'COLORS:'
+                if(Pattern.compile("^COLORS:").matcher(currentLine).find()){
+                    currentLine = currentLine.split(":")[1];
+                    tokens = currentLine.split(",");
+                    for(String token:tokens){
+                        switch(token){
+                            case "B":
+                                blueTick.setSelected(true);
+                                break;
+                            case "G":
+                                greenTick.setSelected(true);
+                                break;
+                            case "Y":
+                                yellowTick.setSelected(true);
+                                break;
+                            case "O":
+                                orangeTick.setSelected(true);
+                                break;
+                            case "R":
+                                redTick.setSelected(true);
+                                break;
+                            case "P":
+                                purpleTick.setSelected(true);
+                                break;
+                        }
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            
+        }
+        
+    }
+    
+    private void changeConfig(){
+        try {
+            FileWriter fw = new FileWriter("jpuyo.conf");
+            fw.write("COLORS:");
+            if(blueTick.isSelected()){
+                fw.write("B");
+                fw.write(",");
+            }
+            if(greenTick.isSelected()){
+                fw.write("G");
+                fw.write(",");
+            }
+            if(yellowTick.isSelected()){
+                fw.write("Y");
+                fw.write(",");
+            }
+            if(orangeTick.isSelected()){
+                fw.write("O");
+                fw.write(",");
+            }
+            if(redTick.isSelected()){
+                fw.write("R");
+                fw.write(",");
+            }
+            if(purpleTick.isSelected()){
+                fw.write("P");
+                fw.write(",");
+            }
+            fw.write("X");
+            fw.close();
+        } catch (IOException ex) {
+            //COLORS = {'B', 'G', 'Y', 'O', 'R', 'P', 'X'};
+        }
     }
 
     /**
@@ -31,6 +116,19 @@ public class OptionsMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         exit = new javax.swing.JButton();
+        blueTick = new javax.swing.JCheckBox();
+        blueIcon = new javax.swing.JLabel();
+        blueIcon1 = new javax.swing.JLabel();
+        greenTick = new javax.swing.JCheckBox();
+        blueIcon2 = new javax.swing.JLabel();
+        orangeTick = new javax.swing.JCheckBox();
+        blueIcon3 = new javax.swing.JLabel();
+        purpleTick = new javax.swing.JCheckBox();
+        blueIcon4 = new javax.swing.JLabel();
+        redTick = new javax.swing.JCheckBox();
+        blueIcon5 = new javax.swing.JLabel();
+        yellowTick = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,19 +139,141 @@ public class OptionsMenu extends javax.swing.JFrame {
             }
         });
 
+        blueTick.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        blueTick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blueTickActionPerformed(evt);
+            }
+        });
+
+        blueIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/BlueIcon.png"))); // NOI18N
+        blueIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        blueIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/GreenIcon.png"))); // NOI18N
+        blueIcon1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        greenTick.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        greenTick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                greenTickActionPerformed(evt);
+            }
+        });
+
+        blueIcon2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/OrangeIcon.png"))); // NOI18N
+        blueIcon2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        orangeTick.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        orangeTick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orangeTickActionPerformed(evt);
+            }
+        });
+
+        blueIcon3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/PurpleIcon.png"))); // NOI18N
+        blueIcon3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        purpleTick.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        purpleTick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purpleTickActionPerformed(evt);
+            }
+        });
+
+        blueIcon4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/RedIcon.png"))); // NOI18N
+        blueIcon4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        redTick.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        redTick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                redTickActionPerformed(evt);
+            }
+        });
+
+        blueIcon5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/YellowIcon.png"))); // NOI18N
+        blueIcon5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        yellowTick.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        yellowTick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yellowTickActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Active colors");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(342, Short.MAX_VALUE)
-                .addComponent(exit)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(exit))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(blueIcon)
+                            .addComponent(blueTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(blueIcon1)
+                                    .addComponent(greenTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(blueIcon2)
+                                    .addComponent(orangeTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(blueIcon3)
+                                    .addComponent(purpleTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(blueIcon4)
+                                    .addComponent(redTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(blueIcon5)
+                                    .addComponent(yellowTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 57, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(252, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(blueIcon)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(blueTick))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(blueIcon5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(yellowTick))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(blueIcon1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(greenTick))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(blueIcon2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(orangeTick))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(blueIcon3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purpleTick))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(blueIcon4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(redTick)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                 .addComponent(exit)
                 .addContainerGap())
         );
@@ -66,11 +286,52 @@ public class OptionsMenu extends javax.swing.JFrame {
         this.parentMenu.setVisible(true);
     }//GEN-LAST:event_exitActionPerformed
 
-    public void setParentMenu(JFrame parentMenu) {
+    private void blueTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueTickActionPerformed
+        changeConfig();
+    }//GEN-LAST:event_blueTickActionPerformed
+
+    private void greenTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_greenTickActionPerformed
+        changeConfig();
+    }//GEN-LAST:event_greenTickActionPerformed
+
+    private void orangeTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orangeTickActionPerformed
+        changeConfig();
+    }//GEN-LAST:event_orangeTickActionPerformed
+
+    private void purpleTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purpleTickActionPerformed
+        changeConfig();
+    }//GEN-LAST:event_purpleTickActionPerformed
+
+    private void redTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redTickActionPerformed
+        changeConfig();
+    }//GEN-LAST:event_redTickActionPerformed
+
+    private void yellowTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yellowTickActionPerformed
+        changeConfig();
+    }//GEN-LAST:event_yellowTickActionPerformed
+
+    /**
+     *
+     * @param parentMenu
+     */
+    public void setParentMenu(javax.swing.JFrame parentMenu) {
         this.parentMenu = parentMenu;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel blueIcon;
+    private javax.swing.JLabel blueIcon1;
+    private javax.swing.JLabel blueIcon2;
+    private javax.swing.JLabel blueIcon3;
+    private javax.swing.JLabel blueIcon4;
+    private javax.swing.JLabel blueIcon5;
+    private javax.swing.JCheckBox blueTick;
     private javax.swing.JButton exit;
+    private javax.swing.JCheckBox greenTick;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JCheckBox orangeTick;
+    private javax.swing.JCheckBox purpleTick;
+    private javax.swing.JCheckBox redTick;
+    private javax.swing.JCheckBox yellowTick;
     // End of variables declaration//GEN-END:variables
 }

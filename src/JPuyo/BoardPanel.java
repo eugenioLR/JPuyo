@@ -22,10 +22,18 @@ public class BoardPanel extends JPanel {
     private final int leftMargin = 0, rightMargin = 0, supMargin = 0, infMargin = 0, vGap = 0, hGap = 0;
     private int width, height;
 
+    /**
+     *
+     */
     public BoardPanel() {
         this(8, 12);
     }
 
+    /**
+     *
+     * @param w
+     * @param h
+     */
     public BoardPanel(int w, int h) {
         height = (20 + vGap) * (h) + supMargin + infMargin;
         width = (20 + hGap) * (w) + leftMargin + rightMargin + 16 * 16;
@@ -34,28 +42,52 @@ public class BoardPanel extends JPanel {
         setBackground(Color.decode("#0F0F0F"));
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getWidth() {
         return width;
     }
 
+    /**
+     *
+     * @param width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getHeight() {
         return height;
     }
 
+    /**
+     *
+     * @param height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     *
+     * @param board
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     *
+     * @param g
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -82,10 +114,22 @@ public class BoardPanel extends JPanel {
         }
     }
 
+    /**
+     *
+     * @param g2d
+     * @param image
+     * @param x
+     * @param y
+     */
     public void drawSprite(Graphics2D g2d, BufferedImage image, int x, int y) {
         g2d.drawImage(image, y, x, this);
     }
 
+    /**
+     *
+     * @param board
+     * @return
+     */
     public BufferedImage[][] getSprites(Board board) {
         BufferedImage image, sprites[][] = new BufferedImage[board.getHeight()][board.getWidth()];
 
@@ -111,6 +155,7 @@ public class BoardPanel extends JPanel {
                         case 'Y':
                             image = Images.yellow;
                             break;
+                        case 'X':
                         default:
                             image = Images.clear;
                     }

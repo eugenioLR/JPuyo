@@ -19,13 +19,23 @@ public class BlockDuo {
     private Board board;
     private int degrees;
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public BlockDuo(int x, int y) {
-        this.pivot = new Block(GameLoop.getCOLORS()[GameLoop.randInt(0, GameLoop.getCOLORS().length - 1)], x, y);
-        this.extension = new Block(GameLoop.getCOLORS()[GameLoop.randInt(0, GameLoop.getCOLORS().length - 1)], x, y - 1);
+        this.pivot = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y);
+        this.extension = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y - 1);
         this.board = pivot.getBoard();
         degrees = 90;
     }
 
+    /**
+     *
+     * @param pivot
+     * @param exension
+     */
     public BlockDuo(Block pivot, Block exension) {
         this.pivot = pivot;
         this.extension = exension;
@@ -34,22 +44,41 @@ public class BlockDuo {
         degrees = 90;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDegrees() {
         return degrees;
     }
 
+    /**
+     *
+     * @param degrees
+     */
     public void setDegrees(int degrees) {
         this.degrees = degrees % 360;
     }
 
+    /**
+     *
+     * @return
+     */
     public Block getPivot() {
         return this.pivot;
     }
 
+    /**
+     *
+     * @return
+     */
     public Block getExtension() {
         return this.extension;
     }
 
+    /**
+     *
+     */
     public void right() {
         if (this.degrees == 0) {
             if (this.extension.right()) {
@@ -62,6 +91,9 @@ public class BlockDuo {
         }
     }
 
+    /**
+     *
+     */
     public void left() {
         if (this.degrees == 180) {
             if (this.extension.left()) {
@@ -74,6 +106,9 @@ public class BlockDuo {
         }
     }
 
+    /**
+     *
+     */
     public void rotateR() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
         this.degrees = (this.degrees - 90) % 360;
@@ -83,6 +118,9 @@ public class BlockDuo {
         this.extension.setPosition(pos2);
     }
 
+    /**
+     *
+     */
     public void rotateL() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
         this.degrees = (this.degrees + 90) % 360;
@@ -92,6 +130,9 @@ public class BlockDuo {
         this.extension.setPosition(pos2);
     }
 
+    /**
+     *
+     */
     public void fall() {
         if (this.degrees == 270) {
             if (this.extension.fall()) {
@@ -104,6 +145,9 @@ public class BlockDuo {
         }
     }
 
+    /**
+     *
+     */
     public void drop() {
         if (this.degrees == 270) {
             this.extension.drop();
@@ -114,6 +158,9 @@ public class BlockDuo {
         }
     }
 
+    /**
+     *
+     */
     public void upadate() {
         this.board.placeInBoard(this.pivot);
         this.board.placeInBoard(this.extension);

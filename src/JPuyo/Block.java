@@ -18,13 +18,20 @@ public class Block {
     private int position[] = new int[2];
     private boolean active;
     
+    /**
+     *
+     */
     public Block() {
-        this.color = GameLoop.getCOLORS()[GameLoop.randInt(0, GameLoop.getCOLORS().length - 1)];
+        this.color = GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1));
         this.position[0] = 0;
         this.position[1] = 0;
         this.active = true;
     }
     
+    /**
+     *
+     * @param color
+     */
     public Block(char color) {
         this.color = color;
         this.position[0] = 0;
@@ -32,6 +39,12 @@ public class Block {
         this.active = true;
     }
 
+    /**
+     *
+     * @param color
+     * @param positionX
+     * @param positionY
+     */
     public Block(char color, int positionX, int positionY) {
         this.color = color;
         this.position[0] = positionX;
@@ -39,6 +52,13 @@ public class Block {
         this.active = true;
     }
 
+    /**
+     *
+     * @param color
+     * @param positionX
+     * @param positionY
+     * @param active
+     */
     public Block(char color, int positionX, int positionY, boolean active) {
         this.color = color;
         this.position[0] = positionX;
@@ -46,26 +66,51 @@ public class Block {
         this.active = active;
     }
 
+    /**
+     *
+     * @return
+     */
     public char getColor() {
         return color;
     }
 
+    /**
+     *
+     * @param color
+     */
     public void setColor(char color) {
         this.color = color;
     }
 
+    /**
+     *
+     * @return
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     *
+     * @param board
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     *
+     * @return
+     */
     public int[] getPosition() {
         return position;
     }
 
+    /**
+     *
+     * @param position
+     * @return
+     */
     public boolean setPosition(int[] position) {
         boolean xInBounds = position[0] > 0 && position[0] < board.getWidth();
         boolean yInBounds = position[1] > 0 && position[1] < board.getHeight();
@@ -75,14 +120,27 @@ public class Block {
         return xInBounds && yInBounds;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPositionX() {
         return position[0];
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPositionY() {
         return position[1];
     }
 
+    /**
+     *
+     * @param x
+     * @return
+     */
     public boolean setPositionX(int x) {
         boolean xInBounds = x > 0 && x < board.getWidth();
         if (xInBounds) {
@@ -91,6 +149,11 @@ public class Block {
         return xInBounds;
     }
 
+    /**
+     *
+     * @param y
+     * @return
+     */
     public boolean setPositionY(int y) {
         boolean yInBounds = y > 0 && y < board.getHeight();
         if (yInBounds) {
@@ -99,18 +162,32 @@ public class Block {
         return yInBounds;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     *
+     */
     public void activate() {
         this.active = true;
     }
 
+    /**
+     *
+     */
     public void deactivate() {
         this.active = false;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean fall() {
         int below[] = {position[0], position[1] + 1};
         boolean canFall = board.getBlockAt(below) == null && below[1] < board.getHeight();
@@ -123,6 +200,9 @@ public class Block {
         return canFall;
     }
 
+    /**
+     *
+     */
     public void drop() {
         int below[] = {position[0], position[1] + 1};
         while (board.getBlockAt(below) == null && below[1] < board.getHeight()) {
@@ -134,6 +214,10 @@ public class Block {
         active = false;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean right() {
         int right[] = {position[0] + 1, position[1]};
         boolean canMove = board.getBlockAt(right) == null && right[0] < board.getWidth();
@@ -145,6 +229,10 @@ public class Block {
         return canMove;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean left() {
         int left[] = {position[0] - 1, position[1]};
         boolean canMove = board.getBlockAt(left) == null && left[0] >= 0;
@@ -156,6 +244,9 @@ public class Block {
         return canMove;
     }
 
+    /**
+     *
+     */
     public void update() {
         board.placeInBoard(this);
     }

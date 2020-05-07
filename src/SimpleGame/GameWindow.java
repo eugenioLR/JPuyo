@@ -14,6 +14,9 @@ import JPuyo.Images;
  */
 public class GameWindow extends javax.swing.JFrame {
     
+    /**
+     *
+     */
     public BoardPanel boardPanel;
             
     /**
@@ -32,10 +35,18 @@ public class GameWindow extends javax.swing.JFrame {
         gl.start();
     }
     
+    /**
+     *
+     * @return
+     */
     public javax.swing.JLabel getPointsLabel(){
         return this.pointsLabel;
     }
     
+    /**
+     *
+     * @return
+     */
     public BoardPanel getBoardPanel(){
         return this.boardPanel;
     }

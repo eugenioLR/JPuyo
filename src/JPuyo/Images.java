@@ -14,23 +14,72 @@ import javax.imageio.ImageIO;
  * @author ACER
  */
 public final class Images {
+
+    /**
+     *
+     */
     public static BufferedImage blue;
+
+    /**
+     *
+     */
     public static BufferedImage purple;
+
+    /**
+     *
+     */
     public static BufferedImage red;
+
+    /**
+     *
+     */
     public static BufferedImage orange;
+
+    /**
+     *
+     */
     public static BufferedImage yellow;
+
+    /**
+     *
+     */
     public static BufferedImage green;
+
+    /**
+     *
+     */
     public static BufferedImage clear;
+
+    /**
+     *
+     */
     public static BufferedImage wall;
+
+    /**
+     *
+     */
     public static BufferedImage wall2;
+
+    /**
+     *
+     */
     public static BufferedImage gap;
+
+    /**
+     *
+     */
     public static BufferedImage nothing;
     
-
+    /**
+     *
+     */
     public Images() {
         this.init();
     }
     
+    /**
+     *
+     */
     public void init(){
         try {
             blue = ImageIO.read(getClass().getClassLoader().getResource("res/Blue.png"));

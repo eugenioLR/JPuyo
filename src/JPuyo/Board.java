@@ -19,32 +19,63 @@ public class Board {
     private final Block board[][];
     private int width, height;
 
+    /**
+     *
+     * @param width
+     * @param height
+     */
     public Board(int width, int height) {
         this.board = new Block[height][width];
         this.width = width;
         this.height = height;
     }
 
+    /**
+     *
+     * @return
+     */
     public Block[][] getBoard() {
         return board;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     *
+     * @param width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     *
+     * @param height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public Block getBlockAt(int x, int y) {
         if (y < height) {
             return board[y][x];
@@ -53,6 +84,11 @@ public class Board {
         }
     }
 
+    /**
+     *
+     * @param pos
+     * @return
+     */
     public Block getBlockAt(int pos[]) {
         if ((pos[1] >= 0 && pos[1] < height) && (pos[0] >= 0 && pos[0] < width)) {
             return board[pos[1]][pos[0]];
@@ -61,6 +97,10 @@ public class Board {
         }
     }
 
+    /**
+     *
+     * @param block
+     */
     public void placeInBoard(Block block) {
         int y = block.getPositionY();
         int x = block.getPositionX();
@@ -76,24 +116,44 @@ public class Board {
         }
     }
 
+    /**
+     *
+     * @param pos
+     */
     public void clearBlock(int pos[]) {
         if (getBlockAt(pos) != null) {
             board[pos[1]][pos[0]] = null;
         }
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void clearBlock(int x, int y) {
         if (getBlockAt(x, y) != null) {
             board[y][x] = null;
         }
     }
 
+    /**
+     *
+     * @param row
+     * @param color
+     * @return
+     */
     public Block spawnBlock(int row, char color) {
         board[0][row] = new Block(color, row, 0);
         board[0][row].setBoard(this);
         return board[0][row];
     }
 
+    /**
+     *
+     * @param row
+     * @return
+     */
     public Block spawnBlockDuo(int row) {
         BlockDuo duo = new BlockDuo(row, 0);
         board[0][row] = duo.getPivot();
@@ -103,23 +163,37 @@ public class Board {
         return board[0][row];
     }
 
+    /**
+     *
+     * @param row
+     * @param column
+     * @param color
+     * @return
+     */
     public Block spawnBlockDuo(int row, int column, char color) {
         board[column][row] = new Block(color, row, column);
         board[column][row].setBoard(this);
         return board[column][row];
     }
 
+    /**
+     *
+     */
     public void randomFill() {
         char color;
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                color = GameLoop.getCOLORS()[GameLoop.randInt(0, GameLoop.getCOLORS().length - 1)];
+                color = GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1));
                 board[i][j] = new Block(color, i, j);
             }
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public long checkChain() {
         ArrayList<int[]> chain;
         int score = 0;
@@ -128,9 +202,10 @@ public class Board {
             for (int j = 0; j < height; j++) {
                 chain = sameColorChain(getBlockAt(i, j));
                 if (chain.size() > 3) {
+                    removeClearBlocks(chain);
                     for (int[] blockPos : chain) {
                         this.clearBlock(blockPos);
-                        score += 100;
+                        score += 25 * chain.size(); //for a 4 chain each one adds 100
                     }
                 }
                 chain.clear();
@@ -138,17 +213,46 @@ public class Board {
         }
         return (long) score;
     }
+    
+    public void removeClearBlocks(ArrayList<int[]> chain){
+        int[] checkingPos = {0,0};
+        int[][] offsetToCheck =  
+        {{0,1},{1,0},{0,-1},{-1,0}};
+        for(int[] pos : chain){
+            for(int[] offset: offsetToCheck){
+                checkingPos[0] = pos[0] + offset[0];
+                checkingPos[1] = pos[1] + offset[1];
+                if(checkingPos[0] >= 0 && checkingPos[0] < this.width && checkingPos[1] >= 0 && checkingPos[1] < this.height){
+                    if(this.getBlockAt(checkingPos) != null && this.getBlockAt(checkingPos).getColor() == 'X'){
+                        this.clearBlock(checkingPos);
+                    }
+                }
+            }
+        }
+        
+    }
 
+    /**
+     *
+     * @param block
+     * @return
+     */
     public ArrayList<int[]> sameColorChain(Block block) {
         ArrayList<int[]> posChecked = new ArrayList<>();
 
-        if (block != null) {
+        if (block != null && block.getColor() != 'X') {
             return sameColorChain(block, posChecked);
         } else {
             return posChecked;
         }
     }
 
+    /**
+     *
+     * @param block
+     * @param posChecked
+     * @return
+     */
     public ArrayList<int[]> sameColorChain(Block block, ArrayList<int[]> posChecked) {
         posChecked.add(block.getPosition());
         int[] blockPos = block.getPosition();
@@ -176,9 +280,15 @@ public class Board {
         return posChecked;
     }
 
+    /**
+     *
+     */
     public void update() {
     }
 
+    /**
+     *
+     */
     public void drawTerminal() {
         Block block;
 

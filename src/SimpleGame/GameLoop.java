@@ -5,12 +5,11 @@
  */
 package SimpleGame;
 
-import JPuyo.Block;
-import JPuyo.Board;
-import JPuyo.BoardPanel;
-import SimpleGame.KeyManager;
-import java.io.IOException;
-import java.util.Random;
+import DuoGame.GameLoopDuo;
+import JPuyo.*;
+import java.io.*;
+import java.util.*;
+import java.util.regex.*;
 import javax.swing.*;
 
 /**
@@ -25,19 +24,71 @@ public class GameLoop extends Thread{
     private static final int WIDTH = 8, HEIGHT = 12;//, FRAMERATE = 60;
     private static int FRAMERATE;
     private long timer, score;
-    private static final char COLORS[] = {'B', 'G', 'Y', 'O', 'R', 'P', 'X'};
+    private static ArrayList<Character> COLORS;
     private final BoardPanel gamePanel;
     private final JLabel pointsLabel;
     private final GameWindow gw;
     private final KeyManager keym;
+    private int turnTicks;
+    private final int initTurnTicks;
     
+    /**
+     *
+     * @param gw
+     */
     public GameLoop(GameWindow gw){
         this.gw = gw;
         this.gamePanel = gw.getBoardPanel();
         this.pointsLabel = gw.getPointsLabel();
         this.keym = new KeyManager();
+        initTurnTicks = 35;
+        turnTicks = initTurnTicks;
+        COLORS = new ArrayList<>();
+        readActiveColors();
+    }
+       
+    
+    public static void readActiveColors(){
+        String currentLine;
+        String tokens[];
+        try {
+            File configFile = new File("jpuyo.conf");
+            if(!configFile.exists()){
+                createConfigFile();
+            }
+            Scanner scanner = new Scanner(configFile);
+            while(scanner.hasNextLine()){
+                currentLine = scanner.nextLine();
+                //the line starts with 'COLORS:'
+                if(Pattern.compile("^COLORS:").matcher(currentLine).find()){
+                    currentLine = currentLine.split(":")[1];
+                    tokens = currentLine.split(",");
+                    for(String token:tokens){
+                        if(token.length() == 1){
+                            COLORS.add(token.charAt(0));
+                        }
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            
+        }
+        
     }
     
+    private static void createConfigFile(){
+        try {
+            FileWriter fw = new FileWriter("jpuyo.conf");
+            fw.write("COLORS:B,G,Y,O,R,P,X");
+            fw.close();
+        } catch (IOException ex) {
+            //COLORS = {'B', 'G', 'Y', 'O', 'R', 'P', 'X'};
+        }
+    }
+    
+    /**
+     *
+     */
     @Override
     public void run(){
         try {
@@ -47,30 +98,33 @@ public class GameLoop extends Thread{
         } catch (InterruptedException | IOException ex) {}
     }
 
-
+    /**
+     *
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public void singleBlockGame() throws InterruptedException, IOException {
         Board board = new Board(WIDTH, HEIGHT);
         Block currentBlock = null;
         Block checkingBlock;
-        int leftRightStick;
         long auxScore;
         boolean lose = false;
-
         gamePanel.setBoard(board);
         for (timer = 0; !lose; timer++) {
             sleep(1);
             if (timer % (1000 / FRAMERATE) == 0) {
-
-                if (((timer / 10) % (1000 / (FRAMERATE))) == 0) {
+                if (((timer) % ((1000 / (FRAMERATE))*turnTicks) ) == 0) {
                     score++;
-
+                    if(score / 200 < initTurnTicks){
+                        turnTicks = initTurnTicks - (int) (score/200);
+                    }
                     pointsLabel.setText("\nScore:" + score);
                     if (currentBlock != null) {
                         currentBlock.fall();
                     }
                     if (currentBlock == null || !currentBlock.isActive()) {
                         lose = firstRowEmpty(board.getBoard()[0]);
-                        currentBlock = board.spawnBlock(WIDTH / 2, COLORS[randInt(0, COLORS.length - 1)]);
+                        currentBlock = board.spawnBlock(WIDTH / 2, COLORS.get(randInt(0, COLORS.size() - 1)));
                         keym.setCurrentBlock(currentBlock);
                         while ((auxScore = board.checkChain()) > 0) {
                             for (int i = HEIGHT - 1; i > 0; i--) {
@@ -85,7 +139,7 @@ public class GameLoop extends Thread{
                                     }
                                 }
                             }
-                            Thread.sleep(500);
+                            sleep(1000);
                             System.out.println("CHAIN! SCORE:" + score);
                         }
 
@@ -99,11 +153,19 @@ public class GameLoop extends Thread{
         System.out.println("YOU LOSE, SCORE: " + score);
     }
 
-
-    public static char[] getCOLORS() {
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<Character> getCOLORS() {
         return COLORS;
     }
 
+    /**
+     *
+     * @param firstRow
+     * @return
+     */
     public static boolean firstRowEmpty(Block firstRow[]) {
         boolean found = false;
         for (int i = 0; i < firstRow.length && !found; i++) {
@@ -112,32 +174,62 @@ public class GameLoop extends Thread{
         return found;
     }
 
+    /**
+     *
+     * @param min
+     * @param max
+     * @return
+     */
     public static int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return randomNum;
     }
 
+    /**
+     *
+     * @return
+     */
     public static int getFRAMERATE() {
         return FRAMERATE;
     }
 
+    /**
+     *
+     * @param FRAMERATE
+     */
     public static void setFRAMERATE(int FRAMERATE) {
         GameLoop.FRAMERATE = FRAMERATE;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getTimer() {
         return timer;
     }
 
+    /**
+     *
+     * @param timer
+     */
     public void setTimer(long timer) {
         this.timer = timer;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getScore() {
         return score;
     }
 
+    /**
+     *
+     * @param score
+     */
     public void setScore(long score) {
         this.score = score;
     }

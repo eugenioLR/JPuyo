@@ -13,27 +13,50 @@ import JPuyo.Block;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ *
+ * @author eugeniolr
+ */
 public class KeyManager implements KeyListener {
 
     private Block currentBlock;
 
+    /**
+     * constuctor for KeyManager
+     */
     public KeyManager() {
         super();
     }
 
+    /**
+     *
+     * @return
+     */
     public Block getCurrentBlock() {
         return currentBlock;
     }
 
+    /**
+     *
+     * @param currentBlock
+     */
     public void setCurrentBlock(Block currentBlock) {
         this.currentBlock = currentBlock;
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (currentBlock != null) {
@@ -54,8 +77,10 @@ public class KeyManager implements KeyListener {
         }
     }
 
-    
-    
+    /**
+     *
+     * @param e
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
