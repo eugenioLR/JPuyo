@@ -5,7 +5,6 @@
  */
 package SimpleGame;
 
-import DuoGame.GameLoopDuo;
 import JPuyo.*;
 import java.io.*;
 import java.util.*;
@@ -26,7 +25,7 @@ public class GameLoop extends Thread{
     private long timer, score;
     private static ArrayList<Character> COLORS;
     private final BoardPanel gamePanel;
-    private final JLabel pointsLabel;
+    private final JLabel pointsLabel, updateText, levelLabel;
     private final GameWindow gw;
     private final KeyManager keym;
     private int turnTicks;
@@ -40,6 +39,8 @@ public class GameLoop extends Thread{
         this.gw = gw;
         this.gamePanel = gw.getBoardPanel();
         this.pointsLabel = gw.getPointsLabel();
+        this.updateText = gw.getupdateText();
+        this.levelLabel = gw.getLevelLabel();
         this.keym = new KeyManager();
         initTurnTicks = 35;
         turnTicks = initTurnTicks;
@@ -70,10 +71,7 @@ public class GameLoop extends Thread{
                     }
                 }
             }
-        } catch (IOException ex) {
-            
-        }
-        
+        } catch (IOException ex) {}
     }
     
     private static void createConfigFile(){
@@ -115,8 +113,12 @@ public class GameLoop extends Thread{
             if (timer % (1000 / FRAMERATE) == 0) {
                 if (((timer) % ((1000 / (FRAMERATE))*turnTicks) ) == 0) {
                     score++;
-                    if(score / 200 < initTurnTicks){
-                        turnTicks = initTurnTicks - (int) (score/200);
+                    if(score/200 + 4 < initTurnTicks){
+                        turnTicks = initTurnTicks - (int) (score/20);
+                        //levelLabel.setText("Level: " + score/200);
+                    }else{
+                        turnTicks = 4;
+                        //levelLabel.setText("Level: " + (4 + initTurnTicks));
                     }
                     pointsLabel.setText("\nScore:" + score);
                     if (currentBlock != null) {
@@ -126,23 +128,22 @@ public class GameLoop extends Thread{
                         lose = firstRowEmpty(board.getBoard()[0]);
                         currentBlock = board.spawnBlock(WIDTH / 2, COLORS.get(randInt(0, COLORS.size() - 1)));
                         keym.setCurrentBlock(currentBlock);
+                        
                         while ((auxScore = board.checkChain()) > 0) {
                             for (int i = HEIGHT - 1; i > 0; i--) {
                                 for (int j = 0; j < WIDTH; j++) {
                                     checkingBlock = board.getBoard()[i][j];
                                     if (checkingBlock != null && checkingBlock != currentBlock) {
                                         checkingBlock.drop();
-                                        score += auxScore;
-                                        auxScore = 0;
-                                        gamePanel.setBoard(board);
-                                        gamePanel.repaint();
                                     }
                                 }
                             }
+                            score += auxScore;
+                            auxScore = 0;
+                            updateText.setText("CHAIN!");
                             sleep(1000);
-                            System.out.println("CHAIN! SCORE:" + score);
+                            updateText.setText("");
                         }
-
                     }
                 }
                 gamePanel.setBoard(board);
@@ -150,7 +151,7 @@ public class GameLoop extends Thread{
                 gw.repaint();
             }
         }
-        System.out.println("YOU LOSE, SCORE: " + score);
+        updateText.setText("YOU LOSE.");
     }
 
     /**
@@ -233,6 +234,4 @@ public class GameLoop extends Thread{
     public void setScore(long score) {
         this.score = score;
     }
-    
-    
 }

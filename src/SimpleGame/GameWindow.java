@@ -47,6 +47,22 @@ public class GameWindow extends javax.swing.JFrame {
      *
      * @return
      */
+    public javax.swing.JLabel getupdateText(){
+        return this.updateText;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public javax.swing.JLabel getLevelLabel(){
+        return this.levelLabel;
+    }
+    
+    /**
+     *
+     * @return
+     */
     public BoardPanel getBoardPanel(){
         return this.boardPanel;
     }
@@ -61,26 +77,41 @@ public class GameWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         pointsLabel = new javax.swing.JLabel();
+        updateText = new javax.swing.JLabel();
+        levelLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        pointsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pointsLabel.setText("35 points");
+
+        updateText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        levelLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        levelLabel.setText("Level:0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(173, 427, Short.MAX_VALUE)
-                .addComponent(pointsLabel)
-                .addGap(20, 20, 20))
+                .addContainerGap(423, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(updateText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pointsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                    .addComponent(levelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(pointsLabel)
-                .addGap(91, 91, 91))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(levelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(updateText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
@@ -88,6 +119,8 @@ public class GameWindow extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel levelLabel;
     private javax.swing.JLabel pointsLabel;
+    private javax.swing.JLabel updateText;
     // End of variables declaration//GEN-END:variables
 }

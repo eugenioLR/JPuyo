@@ -181,7 +181,6 @@ public class Board {
      */
     public void randomFill() {
         char color;
-
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 color = GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1));
@@ -197,20 +196,21 @@ public class Board {
     public long checkChain() {
         ArrayList<int[]> chain;
         int score = 0;
-
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 chain = sameColorChain(getBlockAt(i, j));
                 if (chain.size() > 3) {
-                    removeClearBlocks(chain);
                     for (int[] blockPos : chain) {
                         this.clearBlock(blockPos);
                         score += 25 * chain.size(); //for a 4 chain each one adds 100
                     }
+                    System.out.println(score);
+                    removeClearBlocks(chain);
                 }
                 chain.clear();
             }
         }
+        System.out.println("total: " + score);
         return (long) score;
     }
     
@@ -239,7 +239,6 @@ public class Board {
      */
     public ArrayList<int[]> sameColorChain(Block block) {
         ArrayList<int[]> posChecked = new ArrayList<>();
-
         if (block != null && block.getColor() != 'X') {
             return sameColorChain(block, posChecked);
         } else {
@@ -261,7 +260,6 @@ public class Board {
          {blockPos[0], blockPos[1] - 1}, {blockPos[0] - 1, blockPos[1]}};
         boolean alreadyIn = false;
         Block checkingBlock;
-
         for (int[] pos : posToCheck) {
             checkingBlock = this.getBlockAt(pos);
             if (checkingBlock != null && checkingBlock.getColor() == block.getColor()) {
@@ -283,15 +281,13 @@ public class Board {
     /**
      *
      */
-    public void update() {
-    }
+    public void update() {}
 
     /**
      *
      */
     public void drawTerminal() {
         Block block;
-
         System.out.println("");
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -306,5 +302,4 @@ public class Board {
         }
         System.out.print("\n____________________\n");
     }
-
 }

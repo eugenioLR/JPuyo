@@ -65,45 +65,35 @@ public class OptionsMenu extends javax.swing.JFrame {
                     }
                 }
             }
-        } catch (IOException ex) {
-            
-        }
+        } catch (IOException ex) {}
         
     }
     
-    private void changeConfig(){
+    private void changeColorConfig(){
         try {
             FileWriter fw = new FileWriter("jpuyo.conf");
             fw.write("COLORS:");
             if(blueTick.isSelected()){
-                fw.write("B");
-                fw.write(",");
+                fw.write("B,");
             }
             if(greenTick.isSelected()){
-                fw.write("G");
-                fw.write(",");
+                fw.write("G,");
             }
             if(yellowTick.isSelected()){
-                fw.write("Y");
-                fw.write(",");
+                fw.write("Y,");
             }
             if(orangeTick.isSelected()){
-                fw.write("O");
-                fw.write(",");
+                fw.write("O,");
             }
             if(redTick.isSelected()){
-                fw.write("R");
-                fw.write(",");
+                fw.write("R,");
             }
             if(purpleTick.isSelected()){
-                fw.write("P");
-                fw.write(",");
+                fw.write("P,");
             }
             fw.write("X");
             fw.close();
-        } catch (IOException ex) {
-            //COLORS = {'B', 'G', 'Y', 'O', 'R', 'P', 'X'};
-        }
+        } catch (IOException ex) {}
     }
 
     /**
@@ -287,27 +277,27 @@ public class OptionsMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_exitActionPerformed
 
     private void blueTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueTickActionPerformed
-        changeConfig();
+        changeColorConfig();
     }//GEN-LAST:event_blueTickActionPerformed
 
     private void greenTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_greenTickActionPerformed
-        changeConfig();
+        changeColorConfig();
     }//GEN-LAST:event_greenTickActionPerformed
 
     private void orangeTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orangeTickActionPerformed
-        changeConfig();
+        changeColorConfig();
     }//GEN-LAST:event_orangeTickActionPerformed
 
     private void purpleTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purpleTickActionPerformed
-        changeConfig();
+        changeColorConfig();
     }//GEN-LAST:event_purpleTickActionPerformed
 
     private void redTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redTickActionPerformed
-        changeConfig();
+        changeColorConfig();
     }//GEN-LAST:event_redTickActionPerformed
 
     private void yellowTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yellowTickActionPerformed
-        changeConfig();
+        changeColorConfig();
     }//GEN-LAST:event_yellowTickActionPerformed
 
     /**

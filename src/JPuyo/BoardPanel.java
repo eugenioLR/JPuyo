@@ -132,7 +132,6 @@ public class BoardPanel extends JPanel {
      */
     public BufferedImage[][] getSprites(Board board) {
         BufferedImage image, sprites[][] = new BufferedImage[board.getHeight()][board.getWidth()];
-
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
                 if (board.getBoard()[i][j] != null) {
