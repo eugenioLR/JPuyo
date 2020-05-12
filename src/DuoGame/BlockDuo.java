@@ -142,10 +142,14 @@ public class BlockDuo {
         if (this.degrees == 90) {
             if (this.pivot.fall()) {
                 this.extension.fall();
+            }else{
+                this.extension.deactivate();
             }
         } else {
             if (this.extension.fall()) {
                 this.pivot.fall();
+            }else{
+                this.pivot.deactivate();
             }
         }
     }
@@ -169,7 +173,7 @@ public class BlockDuo {
     public void update() {
         this.board.placeInBoard(this.pivot);
         this.board.placeInBoard(this.extension);
-        if (!this.pivot.isActive() || !this.extension.isActive()) {
+        if (!this.pivot.isActive() && !this.extension.isActive()) {
             drop();
         }
     }

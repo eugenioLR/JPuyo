@@ -199,6 +199,11 @@ public class Block {
         update();
         return canFall;
     }
+    
+    public boolean canFall() {
+        int below[] = {position[0], position[1] + 1};
+        return board.getBlockAt(below) == null && below[1] < board.getHeight();
+    }
 
     /**
      *

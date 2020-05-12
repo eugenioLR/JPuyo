@@ -193,8 +193,9 @@ public class Board {
     public long checkChain() {
         ArrayList<int[]> chain;
         int score = 0;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        boolean chainFound = false;
+        for (int i = 0; i < width && !chainFound; i++) {
+            for (int j = 0; j < height && !chainFound; j++) {
                 chain = sameColorChain(getBlockAt(i, j));
                 if (chain.size() > 3) {
                     for (int[] blockPos : chain) {
@@ -203,6 +204,7 @@ public class Board {
                     }
                     System.out.println(score);
                     removeClearBlocks(chain);
+                    chainFound = true;
                 }
                 chain.clear();
             }

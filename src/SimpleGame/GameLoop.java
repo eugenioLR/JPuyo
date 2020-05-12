@@ -135,7 +135,9 @@ public class GameLoop extends Thread{
                         currentBlock = board.spawnBlock(WIDTH / 2, COLORS.get(randInt(0, COLORS.size() - 1)));
                         keym.setCurrentBlock(currentBlock);
                         
+                        int nChains = 0;
                         while ((auxScore = board.checkChain()) > 0) {
+                            nChains++;
                             for (int i = HEIGHT - 1; i > 0; i--) {
                                 for (int j = 0; j < WIDTH; j++) {
                                     checkingBlock = board.getBoard()[i][j];
@@ -144,10 +146,14 @@ public class GameLoop extends Thread{
                                     }
                                 }
                             }
-                            score += auxScore;
-                            auxScore = 0;
+                            score += auxScore * nChains;
+                            
                             updateText.setText("CHAIN!");
-                            sleep(1000);
+                            gamePanel.setBoard(board);
+                            gamePanel.repaint();
+                            gw.repaint();
+                            
+                            sleep(500);
                             updateText.setText("");
                         }
                     }

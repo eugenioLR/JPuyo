@@ -144,17 +144,19 @@ public class GameLoopDuo extends Thread{
                             for (int i = HEIGHT - 1; i > 0; i--) {
                                 for (int j = 0; j < WIDTH; j++) {
                                     checkingBlock = board.getBoard()[i][j];
-                                    if (checkingBlock != null && checkingBlock != currentBlockDuo.getPivot()
-                                        && checkingBlock != currentBlockDuo.getExtension()) {
+                                    if (checkingBlock != null && checkingBlock != currentBlockDuo.getPivot()) {
                                         checkingBlock.drop();
                                     }
                                 }
                             }
                             score += auxScore;
-                            auxScore = 0;
                             updateText.setText("CHAIN!");
+                            gamePanel.setBoard(board);
+                            gamePanel.repaint();
+                            gw.repaint();
                             sleep(500);
                             updateText.setText("");
+                            gamePanel.repaint();
                         }
                     }
                 }
