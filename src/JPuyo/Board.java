@@ -121,9 +121,7 @@ public class Board {
      * @param pos
      */
     public void clearBlock(int pos[]) {
-        if (getBlockAt(pos) != null) {
-            board[pos[1]][pos[0]] = null;
-        }
+        board[pos[1]][pos[0]] = null;
     }
 
     /**
@@ -132,9 +130,7 @@ public class Board {
      * @param y
      */
     public void clearBlock(int x, int y) {
-        if (getBlockAt(x, y) != null) {
-            board[y][x] = null;
-        }
+        board[y][x] = null;
     }
 
     /**
@@ -154,15 +150,16 @@ public class Board {
      * @param row
      * @return
      */
-    public Block spawnBlockDuo(int row) {
+    public BlockDuo spawnBlockDuo(int row) {
         BlockDuo duo = new BlockDuo(row, 0);
-        board[0][row] = duo.getPivot();
-        board[1][row] = duo.getExtension();
-        board[0][row].setBoard(this);
-        board[1][row].setBoard(this);
-        return board[0][row];
+        duo.setBoard(this);
+        duo.getPivot().setBoard(this);
+        duo.getPivot().update();
+        duo.getExtension().setBoard(this);
+        duo.getExtension().update();
+        return duo;
     }
-
+    
     /**
      *
      * @param row
@@ -210,7 +207,6 @@ public class Board {
                 chain.clear();
             }
         }
-        System.out.println("total: " + score);
         return (long) score;
     }
     

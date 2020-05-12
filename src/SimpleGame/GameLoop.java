@@ -28,7 +28,7 @@ public class GameLoop extends Thread{
     private final JLabel pointsLabel, updateText, levelLabel;
     private final GameWindow gw;
     private final KeyManager keym;
-    private int turnTicks;
+    private int turnTicks, level;
     private final int initTurnTicks;
     
     /**
@@ -43,6 +43,7 @@ public class GameLoop extends Thread{
         this.levelLabel = gw.getLevelLabel();
         this.keym = new KeyManager();
         initTurnTicks = 35;
+        level = 0;
         turnTicks = initTurnTicks;
         COLORS = new ArrayList<>();
         readActiveColors();
@@ -113,13 +114,18 @@ public class GameLoop extends Thread{
             if (timer % (1000 / FRAMERATE) == 0) {
                 if (((timer) % ((1000 / (FRAMERATE))*turnTicks) ) == 0) {
                     score++;
-                    if(score/200 + 4 < initTurnTicks){
-                        turnTicks = initTurnTicks - (int) (score/20);
-                        //levelLabel.setText("Level: " + score/200);
+                    if(score/2000 + 4 < initTurnTicks){
+                        turnTicks = initTurnTicks - (int) (score/2000);
+                        level = (int) score/2000;
                     }else{
                         turnTicks = 4;
-                        //levelLabel.setText("Level: " + (4 + initTurnTicks));
+                        level = 4 + initTurnTicks;
                     }
+                    
+                    if(Integer.valueOf(levelLabel.getText().split(":")[1]) != level){
+                        levelLabel.setText("Level:" + level);
+                    }
+                    
                     pointsLabel.setText("\nScore:" + score);
                     if (currentBlock != null) {
                         currentBlock.fall();

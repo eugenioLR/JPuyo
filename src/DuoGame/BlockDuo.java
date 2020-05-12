@@ -7,12 +7,11 @@ package DuoGame;
 
 import JPuyo.Block;
 import JPuyo.Board;
-import SimpleGame.GameLoop;
-
 /**
  *
  * @author ACER
  */
+
 public class BlockDuo {
 
     private Block pivot, extension;
@@ -25,12 +24,11 @@ public class BlockDuo {
      * @param y
      */
     public BlockDuo(int x, int y) {
-        this.pivot = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y);
-        this.extension = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y - 1);
-        this.board = pivot.getBoard();
+        this.pivot = new Block(GameLoopDuo.getCOLORS().get(GameLoopDuo.randInt(0, GameLoopDuo.getCOLORS().size() - 1)), x, y + 1);
+        this.extension = new Block(GameLoopDuo.getCOLORS().get(GameLoopDuo.randInt(0, GameLoopDuo.getCOLORS().size() - 1)), x, y);
         degrees = 90;
     }
-
+    
     /**
      *
      * @param pivot
@@ -76,6 +74,10 @@ public class BlockDuo {
         return this.extension;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+    
     /**
      *
      */
@@ -111,11 +113,13 @@ public class BlockDuo {
      */
     public void rotateR() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        this.degrees = (this.degrees - 90) % 360;
-        int pos2[] = this.pivot.getPosition();
-        pos2[0] += pos[this.degrees / 90][0];
-        pos2[1] += pos[this.degrees / 90][1];
-        this.extension.setPosition(pos2);
+        this.degrees = Math.floorMod(this.degrees - 90, 360);
+        
+        this.board.clearBlock(this.extension.getPosition());
+        this.extension.setPositionX(this.pivot.getPositionX() + pos[this.degrees / 90][0]);
+        this.extension.setPositionY(this.pivot.getPositionY() + pos[this.degrees / 90][1]);
+        this.board.placeInBoard(this.extension);
+        
     }
 
     /**
@@ -123,24 +127,25 @@ public class BlockDuo {
      */
     public void rotateL() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        this.degrees = (this.degrees + 90) % 360;
-        int pos2[] = this.pivot.getPosition();
-        pos2[0] += pos[this.degrees / 90][0];
-        pos2[1] += pos[this.degrees / 90][1];
-        this.extension.setPosition(pos2);
+        this.degrees = Math.floorMod(this.degrees + 90, 360);
+        
+        this.board.clearBlock(this.extension.getPosition());
+        this.extension.setPositionX(this.pivot.getPositionX() + pos[this.degrees / 90][0]);
+        this.extension.setPositionY(this.pivot.getPositionY() + pos[this.degrees / 90][1]);
+        this.board.placeInBoard(this.extension);
     }
 
     /**
      *
      */
     public void fall() {
-        if (this.degrees == 270) {
-            if (this.extension.fall()) {
-                this.pivot.fall();
-            }
-        } else {
+        if (this.degrees == 90) {
             if (this.pivot.fall()) {
                 this.extension.fall();
+            }
+        } else {
+            if (this.extension.fall()) {
+                this.pivot.fall();
             }
         }
     }
@@ -161,7 +166,7 @@ public class BlockDuo {
     /**
      *
      */
-    public void upadate() {
+    public void update() {
         this.board.placeInBoard(this.pivot);
         this.board.placeInBoard(this.extension);
         if (!this.pivot.isActive() || !this.extension.isActive()) {

@@ -12,6 +12,8 @@ package DuoGame;
 import DuoGame.BlockDuo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,12 +22,14 @@ import java.awt.event.KeyListener;
 public class KeyManagerDuo implements KeyListener {
 
     private BlockDuo currentBlock;
+    private boolean turnActive;
 
     /**
      *
      */
     public KeyManagerDuo() {
         super();
+        turnActive = false;
     }
 
     /**
@@ -43,14 +47,14 @@ public class KeyManagerDuo implements KeyListener {
     public void setCurrentBlock(BlockDuo currentBlock) {
         this.currentBlock = currentBlock;
     }
-
-    /**
-     *
-     * @param e
-     */
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public synchronized void activateTurn(){
+        turnActive = true;
+        notifyAll();
+    }
+    
+    public void deactivateTurn(){
+        turnActive = false;
     }
 
     /**
@@ -58,7 +62,20 @@ public class KeyManagerDuo implements KeyListener {
      * @param e
      */
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyTyped(KeyEvent e) {
+    }
+
+    /**
+     *
+     * @param e
+     */
+    @Override
+    public synchronized void keyPressed(KeyEvent e) {
+        while(!turnActive){
+            try {
+                wait();
+            } catch (InterruptedException ex) {}
+        }
         if (currentBlock != null) {
             switch (e.getKeyChar()) {
                 case 'a':
@@ -89,7 +106,6 @@ public class KeyManagerDuo implements KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
