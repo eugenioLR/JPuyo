@@ -70,6 +70,14 @@ public class OptionsMenu extends javax.swing.JFrame {
     }
     
     private void changeColorConfig(){
+        if(!blueTick.isSelected() &&
+           !greenTick.isSelected() &&
+           !orangeTick.isSelected() &&
+           !purpleTick.isSelected() &&
+           !redTick.isSelected() &&
+           !yellowTick.isSelected()){
+            transTick.setSelected(true);
+        }
         try {
             FileWriter fw = new FileWriter("jpuyo.conf");
             fw.write("COLORS:");
@@ -91,7 +99,9 @@ public class OptionsMenu extends javax.swing.JFrame {
             if(purpleTick.isSelected()){
                 fw.write("P,");
             }
-            fw.write("X");
+            if(transTick.isSelected()){
+                fw.write("X");
+            }
             fw.close();
         } catch (IOException ex) {}
     }
@@ -119,6 +129,8 @@ public class OptionsMenu extends javax.swing.JFrame {
         blueIcon5 = new javax.swing.JLabel();
         yellowTick = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        transTick = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,6 +204,14 @@ public class OptionsMenu extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Active colors");
 
+        jLabel1.setText("Transparent Blocks:");
+
+        transTick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transTickActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,31 +224,37 @@ public class OptionsMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(blueIcon)
-                            .addComponent(blueTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(blueIcon1)
-                                    .addComponent(greenTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(blueIcon)
+                                    .addComponent(blueTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(blueIcon2)
-                                    .addComponent(orangeTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(blueIcon3)
-                                    .addComponent(purpleTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(blueIcon1)
+                                            .addComponent(greenTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(blueIcon2)
+                                            .addComponent(orangeTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(blueIcon3)
+                                            .addComponent(purpleTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(blueIcon4)
+                                            .addComponent(redTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(blueIcon5)
+                                            .addComponent(yellowTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(blueIcon4)
-                                    .addComponent(redTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(blueIcon5)
-                                    .addComponent(yellowTick, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(transTick)))
                         .addGap(0, 57, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -263,7 +289,11 @@ public class OptionsMenu extends javax.swing.JFrame {
                         .addComponent(blueIcon4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(redTick)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(transTick))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
                 .addComponent(exit)
                 .addContainerGap())
         );
@@ -300,6 +330,10 @@ public class OptionsMenu extends javax.swing.JFrame {
         changeColorConfig();
     }//GEN-LAST:event_yellowTickActionPerformed
 
+    private void transTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transTickActionPerformed
+        changeColorConfig();
+    }//GEN-LAST:event_transTickActionPerformed
+
     /**
      *
      * @param parentMenu
@@ -318,10 +352,12 @@ public class OptionsMenu extends javax.swing.JFrame {
     private javax.swing.JCheckBox blueTick;
     private javax.swing.JButton exit;
     private javax.swing.JCheckBox greenTick;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JCheckBox orangeTick;
     private javax.swing.JCheckBox purpleTick;
     private javax.swing.JCheckBox redTick;
+    private javax.swing.JCheckBox transTick;
     private javax.swing.JCheckBox yellowTick;
     // End of variables declaration//GEN-END:variables
 }

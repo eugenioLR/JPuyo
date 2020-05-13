@@ -32,37 +32,46 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="blueIcon" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="blueTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel2" alignment="0" min="-2" pref="164" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="blueIcon1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="greenTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="blueIcon" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="blueTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="blueIcon2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="orangeTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="0" min="-2" pref="164" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="blueIcon1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="greenTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="blueIcon2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="orangeTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="blueIcon3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="purpleTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="blueIcon4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="redTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="blueIcon5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="yellowTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="blueIcon3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="purpleTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="blueIcon4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="redTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="blueIcon5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="yellowTick" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="transTick" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="57" max="32767" attributes="0"/>
@@ -110,7 +119,12 @@
                       <Component id="redTick" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="154" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="transTick" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="119" max="32767" attributes="0"/>
               <Component id="exit" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -239,6 +253,16 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Active colors"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Transparent Blocks:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="transTick">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transTickActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

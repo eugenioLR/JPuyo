@@ -114,7 +114,7 @@ public class GameLoopDuo extends Thread{
         gamePanel.setBoard(board);
         for (timer = 0; !lose; timer++) {
             keym.activateTurn();
-            sleep(1);
+            sleep(2);
             keym.deactivateTurn();
             if (timer % (1000 / FRAMERATE) == 0) {
                 if (((timer) % ((1000 / (FRAMERATE))*turnTicks) ) == 0) {

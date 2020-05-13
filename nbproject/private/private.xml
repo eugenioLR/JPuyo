@@ -5,9 +5,11 @@
         <group>
             <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/DuoGame/BlockDuo.java</file>
             <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/DuoGame/GameLoopDuo.java</file>
-            <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/JPuyo/BoardPanel.java</file>
-            <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/JPuyo/Board.java</file>
+            <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/JPuyo/OptionsMenu.java</file>
+            <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/DuoGame/GameWindowDuo.java</file>
+            <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/SimpleGame/GameWindow.java</file>
             <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/SimpleGame/GameLoop.java</file>
+            <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/SimpleGame/KeyManager.java</file>
             <file>file:/home/eugeniolr/Disco2/Programming/Java/JPuyo/src/JPuyo/Block.java</file>
         </group>
     </open-files>

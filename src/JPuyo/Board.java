@@ -202,7 +202,6 @@ public class Board {
                         this.clearBlock(blockPos);
                         score += 25 * chain.size(); //for a 4 chain each one adds 100
                     }
-                    System.out.println(score);
                     removeClearBlocks(chain);
                     chainFound = true;
                 }
