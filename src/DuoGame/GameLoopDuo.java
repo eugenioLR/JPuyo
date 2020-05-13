@@ -110,6 +110,7 @@ public class GameLoopDuo extends Thread{
         Block checkingBlock;
         long auxScore;
         boolean lose = false;
+        int nChains;
         gamePanel.setBoard(board);
         for (timer = 0; !lose; timer++) {
             keym.activateTurn();
@@ -133,14 +134,19 @@ public class GameLoopDuo extends Thread{
                     
                     if (currentBlockDuo != null) {
                         currentBlockDuo.fall();
+                        if(!currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()){
+                            currentBlockDuo.drop();
+                        }
                     }
-                    
-                    if (currentBlockDuo == null || !currentBlockDuo.getPivot().isActive()) {
+                                        
+                    if (currentBlockDuo == null || !currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()) {
+                        
                         lose = firstRowEmpty(board.getBoard()[0]);
                         currentBlockDuo = board.spawnBlockDuo(WIDTH / 2);
                         keym.setCurrentBlock(currentBlockDuo);
-                        
+                        nChains = 0;
                         while ((auxScore = board.checkChain()) > 0) {
+                            nChains++;
                             for (int i = HEIGHT - 1; i > 0; i--) {
                                 for (int j = 0; j < WIDTH; j++) {
                                     checkingBlock = board.getBoard()[i][j];
@@ -149,14 +155,13 @@ public class GameLoopDuo extends Thread{
                                     }
                                 }
                             }
-                            score += auxScore;
+                            score += auxScore * nChains;
                             updateText.setText("CHAIN!");
                             gamePanel.setBoard(board);
                             gamePanel.repaint();
                             gw.repaint();
                             sleep(500);
                             updateText.setText("");
-                            gamePanel.repaint();
                         }
                     }
                 }
@@ -166,6 +171,14 @@ public class GameLoopDuo extends Thread{
             }
         }
         updateText.setText("YOU LOSE.");
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "You Lost.\nRestart?","Info",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            updateText.setText("");
+            this.duoBlockGame();
+        }else{
+            System.exit(0);
+        }
     }
 
     /**

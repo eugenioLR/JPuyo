@@ -108,6 +108,7 @@ public class GameLoop extends Thread{
         Block checkingBlock;
         long auxScore;
         boolean lose = false;
+        int nChains;
         gamePanel.setBoard(board);
         for (timer = 0; !lose; timer++) {
             sleep(1);
@@ -135,7 +136,7 @@ public class GameLoop extends Thread{
                         currentBlock = board.spawnBlock(WIDTH / 2, COLORS.get(randInt(0, COLORS.size() - 1)));
                         keym.setCurrentBlock(currentBlock);
                         
-                        int nChains = 0;
+                        nChains = 0;
                         while ((auxScore = board.checkChain()) > 0) {
                             nChains++;
                             for (int i = HEIGHT - 1; i > 0; i--) {
@@ -147,12 +148,10 @@ public class GameLoop extends Thread{
                                 }
                             }
                             score += auxScore * nChains;
-                            
                             updateText.setText("CHAIN!");
                             gamePanel.setBoard(board);
                             gamePanel.repaint();
                             gw.repaint();
-                            
                             sleep(500);
                             updateText.setText("");
                         }
@@ -164,6 +163,14 @@ public class GameLoop extends Thread{
             }
         }
         updateText.setText("YOU LOSE.");
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "You Lost.\nRestart?","Info",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            updateText.setText("");
+            this.singleBlockGame();
+        }else{
+            System.exit(0);
+        }
     }
 
     /**

@@ -82,14 +82,21 @@ public class BlockDuo {
      *
      */
     public void right() {
-        if (this.degrees == 0) {
-            if (this.extension.right()) {
-                this.pivot.right();
-            }
-        } else {
-            if (this.pivot.right()) {
-                this.extension.right();
-            }
+        switch (this.degrees) {
+            case 0:
+                if (this.extension.right()) {
+                    this.pivot.right();
+                }   break;
+            case 90:
+            case 270:
+                if (this.pivot.canRight() && this.extension.canRight()){
+                    this.pivot.right();
+                    this.extension.right();
+                }   break;
+            default:
+                if (this.pivot.right()) {
+                    this.extension.right();
+                }   break;
         }
     }
 
@@ -97,14 +104,21 @@ public class BlockDuo {
      *
      */
     public void left() {
-        if (this.degrees == 180) {
-            if (this.extension.left()) {
-                this.pivot.left();
-            }
-        } else {
-            if (this.pivot.left()) {
-                this.extension.left();
-            }
+        switch (this.degrees) {
+            case 180:
+                if (this.extension.left()) {
+                    this.pivot.left();
+                }   break;
+            case 90:
+            case 270:
+                if (this.pivot.canLeft() && this.extension.canLeft()){
+                    this.pivot.left();
+                    this.extension.left();
+                }   break;
+            default:
+                if (this.pivot.left()) {
+                    this.extension.left();
+                }   break;
         }
     }
 
@@ -113,12 +127,20 @@ public class BlockDuo {
      */
     public void rotateR() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        this.degrees = Math.floorMod(this.degrees - 90, 360);
+        int newDegrees = Math.floorMod(this.degrees - 90, 360);
+        int newPos[] = {this.pivot.getPositionX() + pos[newDegrees / 90][0], this.pivot.getPositionY() + pos[newDegrees / 90][1]};
         
-        this.board.clearBlock(this.extension.getPosition());
-        this.extension.setPositionX(this.pivot.getPositionX() + pos[this.degrees / 90][0]);
-        this.extension.setPositionY(this.pivot.getPositionY() + pos[this.degrees / 90][1]);
-        this.board.placeInBoard(this.extension);
+        
+        boolean canRotate = this.board.getBlockAt(newPos) == null 
+                && newPos[0] >= 0 && newPos[0] < this.board.getWidth()
+                && newPos[1] >= 0 && newPos[1] < this.board.getHeight();
+        
+        if(canRotate){
+            this.degrees = newDegrees;
+            this.board.clearBlock(this.extension.getPosition());
+            this.extension.setPosition(newPos);
+            this.board.placeInBoard(this.extension);
+        }
         
     }
 
@@ -127,12 +149,20 @@ public class BlockDuo {
      */
     public void rotateL() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
-        this.degrees = Math.floorMod(this.degrees + 90, 360);
+        int newDegrees = Math.floorMod(this.degrees + 90, 360);
+        int newPos[] = {this.pivot.getPositionX() + pos[newDegrees / 90][0], this.pivot.getPositionY() + pos[newDegrees / 90][1]};
         
-        this.board.clearBlock(this.extension.getPosition());
-        this.extension.setPositionX(this.pivot.getPositionX() + pos[this.degrees / 90][0]);
-        this.extension.setPositionY(this.pivot.getPositionY() + pos[this.degrees / 90][1]);
-        this.board.placeInBoard(this.extension);
+        
+        boolean canRotate = this.board.getBlockAt(newPos) == null 
+                && newPos[0] >= 0 && newPos[0] < this.board.getWidth()
+                && newPos[1] >= 0 && newPos[1] < this.board.getHeight();
+        
+        if(canRotate){
+            this.degrees = newDegrees;
+            this.board.clearBlock(this.extension.getPosition());
+            this.extension.setPosition(newPos);
+            this.board.placeInBoard(this.extension);
+        }
     }
 
     /**

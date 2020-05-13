@@ -233,6 +233,11 @@ public class Block {
         update();
         return canMove;
     }
+    
+    public boolean canRight(){
+        int right[] = {position[0] + 1, position[1]};
+        return board.getBlockAt(right) == null && right[0] < board.getWidth();
+    }
 
     /**
      *
@@ -247,6 +252,11 @@ public class Block {
         }
         update();
         return canMove;
+    }
+    
+    public boolean canLeft(){
+        int right[] = {position[0] - 1, position[1]};
+        return board.getBlockAt(right) == null && right[0] < board.getWidth();
     }
 
     /**
