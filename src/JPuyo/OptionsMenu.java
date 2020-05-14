@@ -39,7 +39,9 @@ public class OptionsMenu extends javax.swing.JFrame {
                 currentLine = scanner.nextLine();
                 //the line starts with 'COLORS:'
                 if(Pattern.compile("^COLORS:").matcher(currentLine).find()){
+                    //get everything after ':'
                     currentLine = currentLine.split(":")[1];
+                    
                     tokens = currentLine.split(",");
                     for(String token:tokens){
                         switch(token){
@@ -61,15 +63,19 @@ public class OptionsMenu extends javax.swing.JFrame {
                             case "P":
                                 purpleTick.setSelected(true);
                                 break;
+                            case "X":
+                                transTick.setSelected(true);
                         }
                     }
                 }
             }
+            changeColorConfig();
         } catch (IOException ex) {}
         
     }
     
     private void changeColorConfig(){
+        //there has to allways be an active color.
         if(!blueTick.isSelected() &&
            !greenTick.isSelected() &&
            !orangeTick.isSelected() &&
@@ -78,6 +84,7 @@ public class OptionsMenu extends javax.swing.JFrame {
            !yellowTick.isSelected()){
             transTick.setSelected(true);
         }
+        
         try {
             FileWriter fw = new FileWriter("jpuyo.conf");
             fw.write("COLORS:");

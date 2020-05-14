@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author eugeniolr
  */
-public class KeyManagerDuo implements KeyListener {
+public class KeyManager implements KeyListener {
 
     private BlockDuo currentBlock;
     private boolean turnActive;
@@ -27,7 +27,7 @@ public class KeyManagerDuo implements KeyListener {
     /**
      *
      */
-    public KeyManagerDuo() {
+    public KeyManager() {
         super();
         turnActive = false;
     }

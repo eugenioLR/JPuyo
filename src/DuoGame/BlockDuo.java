@@ -24,8 +24,8 @@ public class BlockDuo {
      * @param y
      */
     public BlockDuo(int x, int y) {
-        this.pivot = new Block(GameLoopDuo.getCOLORS().get(GameLoopDuo.randInt(0, GameLoopDuo.getCOLORS().size() - 1)), x, y + 1);
-        this.extension = new Block(GameLoopDuo.getCOLORS().get(GameLoopDuo.randInt(0, GameLoopDuo.getCOLORS().size() - 1)), x, y);
+        this.pivot = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y + 1);
+        this.extension = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y);
         degrees = 90;
     }
     

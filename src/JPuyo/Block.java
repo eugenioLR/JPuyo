@@ -5,7 +5,7 @@
  */
 package JPuyo;
 
-import SimpleGame.GameLoop;
+import DuoGame.GameLoop;
 
 /**
  *

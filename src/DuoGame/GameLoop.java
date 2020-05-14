@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SimpleGame;
+package DuoGame;
 
 import JPuyo.*;
 import java.io.*;
@@ -43,7 +43,6 @@ public class GameLoop extends Thread{
         this.levelLabel = gw.getLevelLabel();
         this.keym = new KeyManager();
         initTurnTicks = 35;
-        level = 0;
         turnTicks = initTurnTicks;
         COLORS = new ArrayList<>();
         readActiveColors();
@@ -93,7 +92,8 @@ public class GameLoop extends Thread{
         try {
             FRAMERATE = 60;
             gw.addKeyListener(keym);
-            singleBlockGame();
+            level = 0;
+            duoBlockGame();
         } catch (InterruptedException | IOException ex) {}
     }
 
@@ -102,16 +102,18 @@ public class GameLoop extends Thread{
      * @throws InterruptedException
      * @throws IOException
      */
-    public void singleBlockGame() throws InterruptedException, IOException {
+    public void duoBlockGame() throws InterruptedException, IOException {
         Board board = new Board(WIDTH, HEIGHT);
-        Block currentBlock = null;
+        BlockDuo currentBlockDuo = null;
         Block checkingBlock;
         long auxScore;
         boolean lose = false;
         int nChains;
         gamePanel.setBoard(board);
         for (timer = 0; !lose; timer++) {
-            sleep(1);
+            keym.activateTurn();
+            sleep(2);
+            keym.deactivateTurn();
             if (timer % (1000 / FRAMERATE) == 0) {
                 if (((timer) % ((1000 / (FRAMERATE))*turnTicks) ) == 0) {
                     score++;
@@ -126,23 +128,27 @@ public class GameLoop extends Thread{
                     if(Integer.valueOf(levelLabel.getText().split(":")[1]) != level){
                         levelLabel.setText("Level:" + level);
                     }
-                    
                     pointsLabel.setText("\nScore:" + score);
-                    if (currentBlock != null) {
-                        currentBlock.fall();
+                    
+                    if (currentBlockDuo != null) {
+                        currentBlockDuo.fall();
+                        if(!currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()){
+                            currentBlockDuo.drop();
+                        }
                     }
-                    if (currentBlock == null || !currentBlock.isActive()) {
-                        lose = firstRowEmpty(board.getBoard()[0]);
-                        currentBlock = board.spawnBlock(WIDTH / 2, COLORS.get(randInt(0, COLORS.size() - 1)));
-                        keym.setCurrentBlock(currentBlock);
+                                        
+                    if (currentBlockDuo == null || !currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()) {
                         
+                        lose = firstRowEmpty(board.getBoard()[0]);
+                        currentBlockDuo = board.spawnBlockDuo(WIDTH / 2);
+                        keym.setCurrentBlock(currentBlockDuo);
                         nChains = 0;
                         while ((auxScore = board.checkChain()) > 0) {
                             nChains++;
                             for (int i = HEIGHT - 1; i > 0; i--) {
                                 for (int j = 0; j < WIDTH; j++) {
                                     checkingBlock = board.getBoard()[i][j];
-                                    if (checkingBlock != null && checkingBlock != currentBlock) {
+                                    if (checkingBlock != null && checkingBlock != currentBlockDuo.getPivot()) {
                                         checkingBlock.drop();
                                     }
                                 }
@@ -167,7 +173,7 @@ public class GameLoop extends Thread{
         int dialogResult = JOptionPane.showConfirmDialog (null, "You Lost.\nRestart?","Info",dialogButton);
         if(dialogResult == JOptionPane.YES_OPTION){
             updateText.setText("");
-            this.singleBlockGame();
+            this.duoBlockGame();
         }else{
             System.exit(0);
         }

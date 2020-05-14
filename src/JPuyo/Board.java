@@ -6,7 +6,7 @@
 package JPuyo;
 
 import DuoGame.BlockDuo;
-import SimpleGame.GameLoop;
+import DuoGame.GameLoop;
 import java.util.ArrayList;
 import java.util.Arrays;
 
