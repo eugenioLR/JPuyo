@@ -9,11 +9,8 @@ package DuoGame;
  *
  * @author ACER
  */
-import DuoGame.BlockDuo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +22,7 @@ public class KeyManager implements KeyListener {
     private boolean turnActive;
 
     /**
-     *
+     * Constructor for the class KeyManager
      */
     public KeyManager() {
         super();
@@ -48,11 +45,17 @@ public class KeyManager implements KeyListener {
         this.currentBlock = currentBlock;
     }
     
+    /**
+     * allows the player to control the blocks
+     */
     public synchronized void activateTurn(){
         turnActive = true;
         notifyAll();
     }
     
+    /**
+     * makes the player wait until the turn is active
+     */
     public void deactivateTurn(){
         turnActive = false;
     }

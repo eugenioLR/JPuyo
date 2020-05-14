@@ -19,18 +19,23 @@ import javax.swing.*;
 public class BoardPanel extends JPanel {
 
     private Board board;
-    private final int leftMargin = 0, rightMargin = 0, supMargin = 0, infMargin = 0, vGap = 0, hGap = 0;
+    private final int leftMargin  = 0, 
+                      rightMargin = 0, 
+                      supMargin   = 0, 
+                      infMargin   = 0, 
+                      vGap        = 0, 
+                      hGap        = 0;
     private int width, height;
 
     /**
-     *
+     * Constructor for the class BoardPanel
      */
     public BoardPanel() {
         this(8, 12);
     }
 
     /**
-     *
+     * Constructor for the class BoardPanel given the width and height
      * @param w
      * @param h
      */
@@ -85,7 +90,7 @@ public class BoardPanel extends JPanel {
     }
 
     /**
-     *
+     * Paints the board into the screen.
      * @param g
      */
     @Override
@@ -115,22 +120,22 @@ public class BoardPanel extends JPanel {
     }
 
     /**
-     *
+     * Paints a sprite into the screen.
      * @param g2d
      * @param image
      * @param x
      * @param y
      */
-    public void drawSprite(Graphics2D g2d, BufferedImage image, int x, int y) {
+    private void drawSprite(Graphics2D g2d, BufferedImage image, int x, int y) {
         g2d.drawImage(image, y, x, this);
     }
 
     /**
-     *
+     * returns the sprites representing the blocks on the board
      * @param board
      * @return
      */
-    public BufferedImage[][] getSprites(Board board) {
+    private BufferedImage[][] getSprites(Board board) {
         BufferedImage image, sprites[][] = new BufferedImage[board.getHeight()][board.getWidth()];
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {

@@ -20,7 +20,7 @@ public class Board {
     private int width, height;
 
     /**
-     *
+     * Constructor for the class Board
      * @param width
      * @param height
      */
@@ -117,7 +117,7 @@ public class Board {
     }
 
     /**
-     *
+     * removes a block from a position
      * @param pos
      */
     public void clearBlock(int pos[]) {
@@ -125,7 +125,7 @@ public class Board {
     }
 
     /**
-     *
+     * removes a block from a position
      * @param x
      * @param y
      */
@@ -133,6 +133,18 @@ public class Board {
         board[y][x] = null;
     }
 
+    
+    /**
+     * 
+     */
+    public void clearBoard(){
+        for(int i = 0; i < this.width; i++){
+            for(int j = 0; j < this.height; j++){
+                clearBlock(i,j);
+            }
+        }
+    }
+    
     /**
      *
      * @param row
@@ -174,7 +186,7 @@ public class Board {
     }
 
     /**
-     *
+     * fills the board with random blocks
      */
     public void randomFill() {
         char color;
@@ -187,7 +199,7 @@ public class Board {
     }
 
     /**
-     *
+     * checks for a chain and removes it
      * @return
      */
     public long checkChain() {
@@ -211,7 +223,11 @@ public class Board {
         return (long) score;
     }
     
-    public void removeClearBlocks(ArrayList<int[]> chain){
+    /**
+     * removes the clear blocks near a chain
+     * @param chain
+     */
+    private void removeClearBlocks(ArrayList<int[]> chain){
         int[] checkingPos = {0,0};
         int[][] offsetToCheck =  
         {{0,1},{1,0},{0,-1},{-1,0}};
@@ -230,11 +246,11 @@ public class Board {
     }
 
     /**
-     *
+     * recursively checks for a chain on the board 
      * @param block
      * @return
      */
-    public ArrayList<int[]> sameColorChain(Block block) {
+    private ArrayList<int[]> sameColorChain(Block block) {
         ArrayList<int[]> posChecked = new ArrayList<>();
         if (block != null && block.getColor() != 'X') {
             return sameColorChain(block, posChecked);
@@ -244,12 +260,12 @@ public class Board {
     }
 
     /**
-     *
+     * recursively checks for a chain on the board 
      * @param block
      * @param posChecked
      * @return
      */
-    public ArrayList<int[]> sameColorChain(Block block, ArrayList<int[]> posChecked) {
+    private ArrayList<int[]> sameColorChain(Block block, ArrayList<int[]> posChecked) {
         posChecked.add(block.getPosition());
         int[] blockPos = block.getPosition();
         int[][] posToCheck = 
@@ -281,7 +297,8 @@ public class Board {
     public void update() {}
 
     /**
-     *
+     * Displays the contents of the board on a terminal
+     * [Just for debugging/testing purposes]
      */
     public void drawTerminal() {
         Block block;

@@ -71,14 +71,15 @@ public final class Images {
     public static BufferedImage nothing;
     
     /**
-     *
+     * Constructor for the class Images
      */
     public Images() {
         this.init();
     }
     
     /**
-     *
+     *  Loads the resources into the executable
+     *  avoids having the resources separated 
      */
     public void init(){
         try {

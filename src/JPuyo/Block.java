@@ -19,7 +19,7 @@ public class Block {
     private boolean active;
     
     /**
-     *
+     * Constructor for the class Block
      */
     public Block() {
         this.color = GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1));
@@ -29,7 +29,7 @@ public class Block {
     }
     
     /**
-     *
+     * Constructor for the class Block
      * @param color
      */
     public Block(char color) {
@@ -40,7 +40,7 @@ public class Block {
     }
 
     /**
-     *
+     * Constructor for the class Block
      * @param color
      * @param positionX
      * @param positionY
@@ -53,10 +53,10 @@ public class Block {
     }
 
     /**
-     *
+     * Constructor for the class Block
      * @param color
-     * @param positionX
      * @param positionY
+     * @param positionX
      * @param active
      */
     public Block(char color, int positionX, int positionY, boolean active) {
@@ -185,7 +185,7 @@ public class Block {
     }
 
     /**
-     *
+     * makes the block fall one position, if it can't, it will deactivate
      * @return
      */
     public boolean fall() {
@@ -200,13 +200,17 @@ public class Block {
         return canFall;
     }
     
+    /**
+     * checks if the block can fall or not
+     * @return
+     */
     public boolean canFall() {
         int below[] = {position[0], position[1] + 1};
         return board.getBlockAt(below) == null && below[1] < board.getHeight();
     }
 
     /**
-     *
+     * drops the block to the lowest position possible
      */
     public void drop() {
         int below[] = {position[0], position[1] + 1};
@@ -220,7 +224,7 @@ public class Block {
     }
 
     /**
-     *
+     * moves the block to the right
      * @return
      */
     public boolean right() {
@@ -234,13 +238,17 @@ public class Block {
         return canMove;
     }
     
+    /**
+     * Checks if the block can move to the right
+     * @return
+     */
     public boolean canRight(){
         int right[] = {position[0] + 1, position[1]};
         return board.getBlockAt(right) == null && right[0] < board.getWidth();
     }
 
     /**
-     *
+     * moves the block to the left
      * @return
      */
     public boolean left() {
@@ -254,13 +262,17 @@ public class Block {
         return canMove;
     }
     
+    /**
+     * checks if the block can move to the left
+     * @return
+     */
     public boolean canLeft(){
         int right[] = {position[0] - 1, position[1]};
         return board.getBlockAt(right) == null && right[0] < board.getWidth();
     }
 
     /**
-     *
+     * places the block on the board
      */
     public void update() {
         board.placeInBoard(this);

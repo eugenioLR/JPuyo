@@ -27,6 +27,9 @@ public class GameWindow extends javax.swing.JFrame {
         prepareGame();
     }
     
+    /**
+     *
+     */
     public void prepareGame(){
         new Images();
         this.boardPanel = new BoardPanel(8, 12);

@@ -19,7 +19,7 @@ public class BlockDuo {
     private int degrees;
 
     /**
-     *
+     * Constructor for the class BlockDuo
      * @param x
      * @param y
      */
@@ -30,7 +30,7 @@ public class BlockDuo {
     }
     
     /**
-     *
+     * Constructor for the class BlockDuo given two blocks
      * @param pivot
      * @param exension
      */
@@ -74,12 +74,16 @@ public class BlockDuo {
         return this.extension;
     }
 
+    /**
+     *
+     * @param board
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
     
     /**
-     *
+     * Moves the duo to right only if both of them can.
      */
     public void right() {
         switch (this.degrees) {
@@ -101,7 +105,7 @@ public class BlockDuo {
     }
 
     /**
-     *
+     * Moves the duo to left only if both of them can.
      */
     public void left() {
         switch (this.degrees) {
@@ -123,7 +127,7 @@ public class BlockDuo {
     }
 
     /**
-     *
+     * Rotates the extension arround the pivot counterclockwise
      */
     public void rotateR() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
@@ -145,7 +149,7 @@ public class BlockDuo {
     }
 
     /**
-     *
+     * Rotates the extension arround the pivot clockwise
      */
     public void rotateL() {
         int pos[][] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
@@ -166,7 +170,7 @@ public class BlockDuo {
     }
 
     /**
-     *
+     * Makes the duo fall one block, if it hits an obstacle, the duo will deactivate
      */
     public void fall() {
         if (this.degrees == 90) {
@@ -185,7 +189,7 @@ public class BlockDuo {
     }
 
     /**
-     *
+     * Makes the duo drop to the lowest position posible, then both will deactivate.
      */
     public void drop() {
         if (this.degrees == 270) {
@@ -198,7 +202,7 @@ public class BlockDuo {
     }
 
     /**
-     *
+     * places both blocks in the board and makes them drop if both are deactivated 
      */
     public void update() {
         this.board.placeInBoard(this.pivot);
