@@ -163,7 +163,7 @@ public class GameLoop extends Thread {
             FRAMERATE = 60;
             gw.addKeyListener(keym);
             level = 0;
-            duoBlockGame();
+            mainGame();
         } catch (InterruptedException | IOException ex) {
         }
     }
@@ -174,7 +174,7 @@ public class GameLoop extends Thread {
      * @throws InterruptedException
      * @throws IOException
      */
-    public void duoBlockGame() throws InterruptedException, IOException {
+    public void mainGame() throws InterruptedException, IOException {
         Board board = new Board(WIDTH, HEIGHT);
         BlockDuo currentBlockDuo = null;
         Block checkingBlock;
@@ -183,7 +183,7 @@ public class GameLoop extends Thread {
         int nChains;
         gamePanel.setBoard(board);
         for (timer = 0; !lose; timer++) {
-            //makes a millisecond pass
+            //makes a millisecond passs
             sleep(1);
 
             //draws the screen at the framerate given
@@ -269,10 +269,18 @@ public class GameLoop extends Thread {
         int dialogResult = JOptionPane.showConfirmDialog(null, "You Lost.\nRestart?", "Info", dialogButton);
         if (dialogResult == JOptionPane.YES_OPTION) {
             updateText.setText("");
-            this.duoBlockGame();
+            this.mainGame();
         } else {
             System.exit(0);
         }
+    }
+    
+    public void challengeMode(){
+        //file will contain: 
+        //turns
+        //state of the board
+        //objetive (remove puyos from a list of positions)
+        //
     }
 
     /**
@@ -296,5 +304,8 @@ public class GameLoop extends Thread {
             blockFound = board[0][i] != null;
         }
         return !blockFound;
+    }
+
+    public void oponentAtack(int oponentScore) {
     }
 }
