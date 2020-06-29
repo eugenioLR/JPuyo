@@ -59,6 +59,17 @@ public final class Images {
      *
      */
     public static BufferedImage wall2;
+    
+    /**
+     *
+     */
+    public static BufferedImage wall3;
+
+    /**
+     *
+     */
+    public static BufferedImage wall4;
+
 
     /**
      *
@@ -92,6 +103,8 @@ public final class Images {
             red = ImageIO.read(getClass().getClassLoader().getResource("res/Red.png"));
             wall = ImageIO.read(getClass().getClassLoader().getResource("res/Wall.png"));
             wall2 = ImageIO.read(getClass().getClassLoader().getResource("res/Wall2.png"));
+            wall3 = ImageIO.read(getClass().getClassLoader().getResource("res/Wall3.png"));
+            wall4 = ImageIO.read(getClass().getClassLoader().getResource("res/Wall4.png"));
             yellow = ImageIO.read(getClass().getClassLoader().getResource("res/Yellow.png"));
             nothing = ImageIO.read(getClass().getClassLoader().getResource("res/Null.png"));
         } catch (IOException ex) {

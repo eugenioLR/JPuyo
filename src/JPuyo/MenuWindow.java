@@ -6,6 +6,7 @@
 package JPuyo;
 
 import DuoGame.*;
+import Multiplayer.ServerClientSelect;
 /**
  *
  * @author eugeniolr
@@ -31,7 +32,9 @@ public class MenuWindow extends javax.swing.JFrame {
         Options = new javax.swing.JButton();
         Exit = new javax.swing.JButton();
         Title = new javax.swing.JLabel();
-        StartDuo = new javax.swing.JButton();
+        playButton = new javax.swing.JButton();
+        multiplayerButton = new javax.swing.JButton();
+        ChallengesButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,10 +57,24 @@ public class MenuWindow extends javax.swing.JFrame {
         Title.setText("JPuyo");
         Title.setToolTipText("");
 
-        StartDuo.setText("Play");
-        StartDuo.addActionListener(new java.awt.event.ActionListener() {
+        playButton.setText("Play");
+        playButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StartDuoActionPerformed(evt);
+                playButtonActionPerformed(evt);
+            }
+        });
+
+        multiplayerButton.setText("Multiplayer");
+        multiplayerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                multiplayerButtonActionPerformed(evt);
+            }
+        });
+
+        ChallengesButton.setText("Challenges");
+        ChallengesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChallengesButtonActionPerformed(evt);
             }
         });
 
@@ -65,21 +82,23 @@ public class MenuWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(198, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(StartDuo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(Title)))
-                        .addContainerGap(190, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Exit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Options, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-                        .addGap(191, 191, 191))))
+                    .addComponent(Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Options, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(multiplayerButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(2, 2, 2)
+                            .addComponent(Title))))
+                .addContainerGap(190, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ChallengesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,12 +106,16 @@ public class MenuWindow extends javax.swing.JFrame {
                 .addContainerGap(60, Short.MAX_VALUE)
                 .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(StartDuo)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ChallengesButton)
+                    .addComponent(playButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(multiplayerButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Options)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Exit)
-                .addGap(81, 81, 81))
+                .addGap(52, 52, 52))
         );
 
         Title.getAccessibleContext().setAccessibleName("Title");
@@ -111,11 +134,24 @@ public class MenuWindow extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_ExitActionPerformed
 
-    private void StartDuoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartDuoActionPerformed
-        GameWindow gw = new GameWindow();
+    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+        GameWindow gw = new GameWindow(0);
         gw.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_StartDuoActionPerformed
+    }//GEN-LAST:event_playButtonActionPerformed
+
+    private void multiplayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multiplayerButtonActionPerformed
+        ServerClientSelect scs = new ServerClientSelect();
+        scs.setVisible(true);
+        scs.setMainMenu(this);
+        this.setVisible(false);
+    }//GEN-LAST:event_multiplayerButtonActionPerformed
+
+    private void ChallengesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChallengesButtonActionPerformed
+        GameWindow gw = new GameWindow(1);
+        gw.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ChallengesButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,9 +189,11 @@ public class MenuWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ChallengesButton;
     private javax.swing.JButton Exit;
     private javax.swing.JButton Options;
-    private javax.swing.JButton StartDuo;
     private javax.swing.JLabel Title;
+    private javax.swing.JButton multiplayerButton;
+    private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables
 }

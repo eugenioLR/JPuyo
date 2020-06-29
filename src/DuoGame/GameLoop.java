@@ -6,6 +6,7 @@
 package DuoGame;
 
 import JPuyo.*;
+import challengeMode.*;
 import java.io.*;
 import java.util.*;
 import java.util.regex.*;
@@ -27,13 +28,14 @@ public class GameLoop extends Thread {
     private final KeyManager keym;
     private int turnTicks, level;
     private final int initTurnTicks;
+    private final int mode;
 
     /**
      * Constuctor for GameLoop given a game window
      *
      * @param gw
      */
-    public GameLoop(GameWindow gw) {
+    public GameLoop(GameWindow gw,int mode) {
         this.gw = gw;
         this.gamePanel = gw.getBoardPanel();
         this.pointsLabel = gw.getPointsLabel();
@@ -44,6 +46,7 @@ public class GameLoop extends Thread {
         turnTicks = initTurnTicks;
         COLORS = new ArrayList<>();
         readActiveColors();
+        this.mode = mode;
     }
     
     /**
@@ -162,8 +165,17 @@ public class GameLoop extends Thread {
         try {
             FRAMERATE = 60;
             gw.addKeyListener(keym);
-            level = 0;
-            duoBlockGame();
+            level = 1;
+            switch(mode){
+                case 0:
+                    mainGame();
+                    break;
+                case 1:
+                    challengeMode();
+                    break;
+                default:
+                    mainGame();
+            }
         } catch (InterruptedException | IOException ex) {
         }
     }
@@ -174,7 +186,7 @@ public class GameLoop extends Thread {
      * @throws InterruptedException
      * @throws IOException
      */
-    public void duoBlockGame() throws InterruptedException, IOException {
+    public void mainGame() throws InterruptedException, IOException {
         Board board = new Board(WIDTH, HEIGHT);
         BlockDuo currentBlockDuo = null;
         Block checkingBlock;
@@ -183,7 +195,7 @@ public class GameLoop extends Thread {
         int nChains;
         gamePanel.setBoard(board);
         for (timer = 0; !lose; timer++) {
-            //makes a millisecond pass
+            //makes a millisecond passs
             sleep(1);
 
             //draws the screen at the framerate given
@@ -269,9 +281,118 @@ public class GameLoop extends Thread {
         int dialogResult = JOptionPane.showConfirmDialog(null, "You Lost.\nRestart?", "Info", dialogButton);
         if (dialogResult == JOptionPane.YES_OPTION) {
             updateText.setText("");
-            this.duoBlockGame();
+            this.mainGame();
         } else {
             System.exit(0);
+        }
+    }
+    
+    public void challengeMode() throws InterruptedException, IOException{
+        BlockDuo currentBlockDuo = null;
+        Block checkingBlock;
+        long auxScore;
+        boolean lose = false, win = false;
+        int nChains;
+        
+        while(!lose){
+            level++;
+            BoardSeq board = ChallengeReader.readChallenge((int)(Math.random()*2));
+            gamePanel.setBoard(board);
+            lose = false;
+            win = false;
+            for (timer = 0; !lose && !win; timer++) {
+                //makes a millisecond passs
+                sleep(1);
+                //draws the screen at the framerate given
+                if (timer % (1000 / FRAMERATE) == 0) {
+
+                    //the block falls after a given number of frames have passed
+                    if (((timer) % ((1000 / (FRAMERATE)) * turnTicks)) == 0) {
+
+                        //no input can be recieved until the end of the turn
+                        keym.deactivateTurn();
+
+                        score++;
+
+                        //the level and turn ticks are calculated
+                        if (score / 2000 + 4 < initTurnTicks) {
+                            turnTicks = initTurnTicks - (int) (score / 2000);
+                        } else {
+                            turnTicks = 4;
+                        }
+                        pointsLabel.setText("\nScore:" + score);
+
+                        if (currentBlockDuo != null) {
+                            currentBlockDuo.fall();
+                            if (!currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()) {
+                                currentBlockDuo.drop();
+                            }
+                        }
+
+                        if (currentBlockDuo == null || !currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()) {
+                            //will clear all the chains on the board one by one
+                            nChains = 0;
+                            while ((auxScore = board.checkChain()) > 0) {
+                                nChains++;
+                                for (int i = HEIGHT - 1; i > 0; i--) {
+                                    for (int j = 0; j < WIDTH; j++) {
+                                        checkingBlock = board.getBoard()[i][j];
+                                        if (checkingBlock != null && checkingBlock != currentBlockDuo.getPivot()) {
+                                            checkingBlock.drop();
+                                        }
+                                    }
+                                }
+
+                                //each consecutive chain will multiply the score obtained
+                                score += auxScore * nChains;
+
+                                //it will be shown how many chains the player has made as well as the score
+                                if (nChains < 2) {
+                                    updateText.setText("CHAIN!");
+                                } else {
+                                    updateText.setText("CHAIN x" + nChains + "!");
+                                }
+                                pointsLabel.setText("\nScore:" + score);
+
+                                //the state of the board once a chain is cleared is shown
+                                displayBoard(board);
+
+                                //some time will be given to the player to see the state of the board
+                                sleep(750);
+                                updateText.setText("");
+                            }
+                            
+                            win = board.isEmpty();
+                            lose = !firstRowEmpty(board.getBoard()) || !(board.getSequence().size() > 0);
+                            if(board.getSequence().size() > 0){
+                                currentBlockDuo = board.getSequence().remove(0);
+                                currentBlockDuo.setBoard(board);
+                                board.placeInBoard(currentBlockDuo);
+                                keym.setCurrentBlock(currentBlockDuo);
+                            }
+                        }
+                        //the turn has ended, the player can now control the blocks
+                        keym.activateTurn();
+                    }
+                    displayBoard(board);
+                }
+            }
+            if(win){
+                updateText.setText("YOU WIN!!");
+                levelLabel.setText("Level:" + level);
+            }else{
+                updateText.setText("YOU LOSE.");
+            }
+
+            //once the player loses, a popup will ask him if he wants to restart
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Continue?", "Info", dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                updateText.setText("");
+            } else {
+                System.exit(0);
+            }
+            currentBlockDuo = null;
         }
     }
 
@@ -296,5 +417,8 @@ public class GameLoop extends Thread {
             blockFound = board[0][i] != null;
         }
         return !blockFound;
+    }
+
+    public void oponentAtack(int oponentScore) {
     }
 }

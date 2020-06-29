@@ -18,6 +18,12 @@ public class BlockDuo {
     private Board board;
     private int degrees;
 
+    public BlockDuo(char color1, char color2){
+        this.pivot = new Block(color1);
+        this.extension = new Block(color2);
+        degrees = 90;
+    }
+    
     /**
      * Constructor for the class BlockDuo
      * @param x
@@ -26,6 +32,17 @@ public class BlockDuo {
     public BlockDuo(int x, int y) {
         this.pivot = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y + 1);
         this.extension = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y);
+        degrees = 90;
+    }
+    
+    /**
+     * Constructor for the class BlockDuo
+     * @param x
+     * @param y
+     */
+    public BlockDuo(int x, int y, char color1, char color2) {
+        this.pivot = new Block(color1, x, y + 1);
+        this.extension = new Block(color2, x, y);
         degrees = 90;
     }
     
@@ -80,6 +97,8 @@ public class BlockDuo {
      */
     public void setBoard(Board board) {
         this.board = board;
+        this.pivot.setBoard(board);
+        this.extension.setBoard(board);
     }
     
     /**
@@ -210,6 +229,9 @@ public class BlockDuo {
         if (!this.pivot.isActive() && !this.extension.isActive()) {
             drop();
         }
+    }
+
+    public void setPosition(int[] i) {
     }
 
 }
