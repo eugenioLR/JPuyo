@@ -7,8 +7,7 @@ package JPuyo;
 
 import DuoGame.BlockDuo;
 import DuoGame.GameLoop;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  *
@@ -18,6 +17,7 @@ public class Board {
 
     private final Block board[][];
     private int width, height;
+    private final Queue<BlockDuo> sequence;
 
     /**
      * Constructor for the class Board
@@ -28,6 +28,20 @@ public class Board {
         this.board = new Block[height][width];
         this.width = width;
         this.height = height;
+        sequence = new LinkedList<>();
+    }
+    
+    /**
+     * Constructor for the class Board
+     * @param width
+     * @param height
+     * @param sequence
+     */
+    public Board(int width, int height, Queue<BlockDuo> sequence) {
+        this.board = new Block[height][width];
+        this.width = width;
+        this.height = height;
+        this.sequence = sequence;
     }
 
     /**
@@ -97,6 +111,24 @@ public class Board {
         }
     }
 
+    public Queue<BlockDuo> getSequence(){
+        return this.sequence;
+    }
+    
+    public BlockDuo nextBlock(){
+        return this.sequence.peek();
+    }
+    
+    public boolean isEmpty(){
+        boolean empty = true;
+        for(int i = 0; i < this.getBoard().length && empty; i++){
+            for(int j = 0; j < this.getBoard()[i].length && empty; j++){
+                empty = this.getBlockAt(j, i) == null;
+            }
+        }
+        return empty;
+    }
+    
     /**
      *
      * @param block
@@ -113,6 +145,24 @@ public class Board {
         } else {
             block.setPositionY(y + 1);
             this.placeInBoard(block);
+        }
+    }
+    
+    public void placeInBoard(BlockDuo duo) {
+        int y = duo.getPivot().getPositionY();
+        int x = duo.getPivot().getPositionX();
+
+        if (y < height-1 && y > 0) {
+            board[y][x] = duo.getPivot();
+            board[y-1][x] = duo.getExtension();
+        } else if (y >= height) {
+            duo.getPivot().setPositionY(y - 1);
+            duo.getExtension().setPositionY(y - 1);
+            this.placeInBoard(duo);
+        } else {
+            duo.getPivot().setPositionY(y + 1);
+            duo.getExtension().setPositionY(y + 1);
+            this.placeInBoard(duo);
         }
     }
 
@@ -156,7 +206,21 @@ public class Board {
         board[0][row].setBoard(this);
         return board[0][row];
     }
-
+    
+    /**
+     *
+     * @param column
+     * @param row
+     * @param color
+     * @param active
+     * @return
+     */
+    public Block spawnBlock(int column, int row, char color, boolean active) {
+        board[column][row] = new Block(color, row, column, active);
+        board[column][row].setBoard(this);
+        return board[column][row];
+    }
+    
     /**
      *
      * @param row
@@ -302,7 +366,7 @@ public class Board {
      */
     public void drawTerminal() {
         Block block;
-        System.out.println("");
+        System.out.println();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 block = board[i][j];

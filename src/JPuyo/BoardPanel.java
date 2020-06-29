@@ -41,7 +41,7 @@ public class BoardPanel extends JPanel {
      */
     public BoardPanel(int w, int h) {
         height = (20 + vGap) * (h) + supMargin + infMargin;
-        width = (20 + hGap) * (w) + leftMargin + rightMargin + 16 * 16;
+        width = (20 + hGap) * (w) + leftMargin + rightMargin + 16 * 4;
         setVisible(true);
         this.board = new Board(w, h);
         setBackground(Color.decode("#0F0F0F"));
@@ -99,20 +99,38 @@ public class BoardPanel extends JPanel {
         Graphics2D sprite = (Graphics2D) g;
         File imageFile;
         BufferedImage imageMat[][] = getSprites(board);
-        int i, j;
+        int i, j, r, c;
+        r = 0;
         i = supMargin;
         for (BufferedImage[] row : imageMat) {
             j = leftMargin;
             drawSprite(sprite, Images.wall2, i, j);
             j += 16 + hGap;
+            
             for (BufferedImage image : row) {
                 drawSprite(sprite, image, i, j);
                 j += 16 + hGap;
             }
+            
+            c = 0;
             for (int k = j; k <= j + (16 + vGap) * 16; k += 16 + vGap) {
-                drawSprite(sprite, Images.wall2, i, k);
+                if(1 <= c && c <= 3 &&  3 <= r && r <= 6){
+                    if(board.getSequence().size() > 0 && c == 2){
+                        if(r == 4){
+                            drawSprite(sprite, blockToImage(board.nextBlock().getPivot()), i, k);
+                        }else if(r==5){
+                            drawSprite(sprite, blockToImage(board.nextBlock().getExtension()), i, k);
+                        }
+                    }else{
+                        drawSprite(sprite, Images.gap, i, k);
+                    }
+                }else{
+                    drawSprite(sprite, Images.wall2, i, k);
+                }
+                c++;
             }
             i += 16 + vGap;
+            r++;
         }
         for (j = 0; j <= width - (16 + vGap); j += 16 + vGap) {
             drawSprite(sprite, Images.wall2, i, j);
@@ -140,29 +158,7 @@ public class BoardPanel extends JPanel {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
                 if (board.getBoard()[i][j] != null) {
-                    switch (board.getBoard()[i][j].getColor()) {
-                        case 'R':
-                            image = Images.red;
-                            break;
-                        case 'B':
-                            image = Images.blue;
-                            break;
-                        case 'G':
-                            image = Images.green;
-                            break;
-                        case 'P':
-                            image = Images.purple;
-                            break;
-                        case 'O':
-                            image = Images.orange;
-                            break;
-                        case 'Y':
-                            image = Images.yellow;
-                            break;
-                        case 'X':
-                        default:
-                            image = Images.clear;
-                    }
+                    image = blockToImage(board.getBoard()[i][j]);
                 } else {
                     image = Images.gap;
                 }
@@ -170,5 +166,33 @@ public class BoardPanel extends JPanel {
             }
         }
         return sprites;
+    }
+    
+    private BufferedImage blockToImage(Block block){
+        BufferedImage image;
+        switch (block.getColor()) {
+            case 'R':
+                image = Images.red;
+                break;
+            case 'B':
+                image = Images.blue;
+                break;
+            case 'G':
+                image = Images.green;
+                break;
+            case 'P':
+                image = Images.purple;
+                break;
+            case 'O':
+                image = Images.orange;
+                break;
+            case 'Y':
+                image = Images.yellow;
+                break;
+            case 'X':
+            default:
+                image = Images.clear;
+        }
+        return image;
     }
 }
