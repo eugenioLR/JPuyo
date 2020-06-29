@@ -115,6 +115,24 @@ public class Board {
             this.placeInBoard(block);
         }
     }
+    
+    public void placeInBoard(BlockDuo duo) {
+        int y = duo.getPivot().getPositionY();
+        int x = duo.getPivot().getPositionX();
+
+        if (y < height-1 && y > 0) {
+            board[y][x] = duo.getPivot();
+            board[y-1][x] = duo.getExtension();
+        } else if (y >= height) {
+            duo.getPivot().setPositionY(y - 1);
+            duo.getExtension().setPositionY(y - 1);
+            this.placeInBoard(duo);
+        } else {
+            duo.getPivot().setPositionY(y + 1);
+            duo.getExtension().setPositionY(y + 1);
+            this.placeInBoard(duo);
+        }
+    }
 
     /**
      * removes a block from a position
@@ -156,7 +174,21 @@ public class Board {
         board[0][row].setBoard(this);
         return board[0][row];
     }
-
+    
+    /**
+     *
+     * @param column
+     * @param row
+     * @param color
+     * @param active
+     * @return
+     */
+    public Block spawnBlock(int column, int row, char color, boolean active) {
+        board[column][row] = new Block(color, row, column, active);
+        board[column][row].setBoard(this);
+        return board[column][row];
+    }
+    
     /**
      *
      * @param row
@@ -302,7 +334,7 @@ public class Board {
      */
     public void drawTerminal() {
         Block block;
-        System.out.println("");
+        System.out.println();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 block = board[i][j];

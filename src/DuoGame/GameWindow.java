@@ -22,18 +22,18 @@ public class GameWindow extends javax.swing.JFrame {
     /**
      * Creates new form GameWindow
      */
-    public GameWindow() {
+    public GameWindow(int mode) {
         initComponents();
-        prepareGame();
+        prepareGame(mode);
     }
     
     /**
      *
      */
-    public void prepareGame(){
+    public void prepareGame(int mode){
         new Images();
         this.boardPanel = new BoardPanel(8, 12);
-        GameLoop gl = new GameLoop(this);
+        GameLoop gl = new GameLoop(this, mode);
         this.add(boardPanel);
         gl.start();
     }

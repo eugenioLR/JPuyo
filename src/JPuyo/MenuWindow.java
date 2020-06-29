@@ -34,6 +34,7 @@ public class MenuWindow extends javax.swing.JFrame {
         Title = new javax.swing.JLabel();
         playButton = new javax.swing.JButton();
         multiplayerButton = new javax.swing.JButton();
+        ChallengesButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,6 +71,13 @@ public class MenuWindow extends javax.swing.JFrame {
             }
         });
 
+        ChallengesButton.setText("Challenges");
+        ChallengesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChallengesButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,12 +89,16 @@ public class MenuWindow extends javax.swing.JFrame {
                     .addComponent(Options, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(multiplayerButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(playButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(Title)))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(2, 2, 2)
+                            .addComponent(Title))))
                 .addContainerGap(190, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ChallengesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,7 +106,9 @@ public class MenuWindow extends javax.swing.JFrame {
                 .addContainerGap(60, Short.MAX_VALUE)
                 .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ChallengesButton)
+                    .addComponent(playButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(multiplayerButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -121,7 +135,7 @@ public class MenuWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        GameWindow gw = new GameWindow();
+        GameWindow gw = new GameWindow(0);
         gw.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_playButtonActionPerformed
@@ -132,6 +146,12 @@ public class MenuWindow extends javax.swing.JFrame {
         scs.setMainMenu(this);
         this.setVisible(false);
     }//GEN-LAST:event_multiplayerButtonActionPerformed
+
+    private void ChallengesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChallengesButtonActionPerformed
+        GameWindow gw = new GameWindow(1);
+        gw.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ChallengesButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,6 +189,7 @@ public class MenuWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ChallengesButton;
     private javax.swing.JButton Exit;
     private javax.swing.JButton Options;
     private javax.swing.JLabel Title;
