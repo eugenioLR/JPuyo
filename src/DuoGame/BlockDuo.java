@@ -155,8 +155,8 @@ public class BlockDuo {
         
         
         boolean canRotate = this.board.getBlockAt(newPos) == null 
-                && newPos[0] >= 0 && newPos[0] < this.board.getWidth()
-                && newPos[1] >= 0 && newPos[1] < this.board.getHeight();
+                && 0 <= newPos[0] && newPos[0] < this.board.getWidth()
+                && 0 <= newPos[1] && newPos[1] < this.board.getHeight();
         
         if(canRotate){
             this.degrees = newDegrees;
@@ -177,8 +177,8 @@ public class BlockDuo {
         
         
         boolean canRotate = this.board.getBlockAt(newPos) == null 
-                && newPos[0] >= 0 && newPos[0] < this.board.getWidth()
-                && newPos[1] >= 0 && newPos[1] < this.board.getHeight();
+                && 0 <= newPos[0] && newPos[0] < this.board.getWidth()
+                && 0 <= newPos[1] && newPos[1] < this.board.getHeight();
         
         if(canRotate){
             this.degrees = newDegrees;

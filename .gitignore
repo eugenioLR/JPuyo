@@ -1,0 +1,4 @@
+build/
+dist/
+jpuyo.conf
+!dist/javadoc

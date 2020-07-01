@@ -104,7 +104,7 @@ public class Board {
      * @return
      */
     public Block getBlockAt(int pos[]) {
-        if ((pos[1] >= 0 && pos[1] < height) && (pos[0] >= 0 && pos[0] < width)) {
+        if ((0 <= pos[1] && pos[1] < height) && (0 <= pos[0] && pos[0] < width)) {
             return board[pos[1]][pos[0]];
         } else {
             return null;
@@ -137,7 +137,7 @@ public class Board {
         int y = block.getPositionY();
         int x = block.getPositionX();
 
-        if (y < height && y > -1) {
+        if (0 <= y && y < height) {
             board[y][x] = block;
         } else if (y >= height) {
             block.setPositionY(y - 1);
@@ -152,7 +152,7 @@ public class Board {
         int y = duo.getPivot().getPositionY();
         int x = duo.getPivot().getPositionX();
 
-        if (y < height-1 && y > 0) {
+        if (1 <= y && y < height-1) {
             board[y][x] = duo.getPivot();
             board[y-1][x] = duo.getExtension();
         } else if (y >= height) {

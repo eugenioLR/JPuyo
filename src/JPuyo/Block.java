@@ -112,8 +112,8 @@ public class Block {
      * @return
      */
     public boolean setPosition(int[] position) {
-        boolean xInBounds = position[0] > 0 && position[0] < board.getWidth();
-        boolean yInBounds = position[1] > 0 && position[1] < board.getHeight();
+        boolean xInBounds = 0 <= position[0] && position[0] < board.getWidth();
+        boolean yInBounds = 0 <= position[1] && position[1] < board.getHeight();
         if (xInBounds && yInBounds) {
             this.position = position;
         }
