@@ -18,6 +18,7 @@ public class MenuWindow extends javax.swing.JFrame {
      */
     public MenuWindow() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -135,7 +136,7 @@ public class MenuWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        GameWindow gw = new GameWindow(0);
+        GameWindow gw = new GameWindow(this,0);
         gw.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_playButtonActionPerformed
@@ -148,7 +149,7 @@ public class MenuWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_multiplayerButtonActionPerformed
 
     private void ChallengesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChallengesButtonActionPerformed
-        GameWindow gw = new GameWindow(1);
+        GameWindow gw = new GameWindow(this,1);
         gw.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_ChallengesButtonActionPerformed

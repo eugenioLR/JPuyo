@@ -117,9 +117,9 @@ public class BoardPanel extends JPanel {
                 if(1 <= c && c <= 3 &&  3 <= r && r <= 6){
                     if(board.getSequence().size() > 0 && c == 2){
                         if(r == 4){
-                            drawSprite(sprite, blockToImage(board.nextBlock().getPivot()), i, k);
-                        }else if(r==5){
                             drawSprite(sprite, blockToImage(board.nextBlock().getExtension()), i, k);
+                        }else if(r==5){
+                            drawSprite(sprite, blockToImage(board.nextBlock().getPivot()), i, k);
                         }
                     }else{
                         drawSprite(sprite, Images.gap, i, k);

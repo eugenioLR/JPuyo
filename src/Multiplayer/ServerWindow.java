@@ -16,6 +16,7 @@ public class ServerWindow extends javax.swing.JFrame {
      */
     public ServerWindow() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

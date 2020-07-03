@@ -20,6 +20,7 @@ public class ServerClientSelect extends javax.swing.JFrame {
      */
     public ServerClientSelect() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     public void setMainMenu(MenuWindow mainMenu) {

@@ -16,6 +16,7 @@ public class ClientWindow extends javax.swing.JFrame {
      */
     public ClientWindow() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

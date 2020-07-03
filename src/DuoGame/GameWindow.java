@@ -5,8 +5,8 @@
  */
 package DuoGame;
 
-import JPuyo.BoardPanel;
-import JPuyo.Images;
+import JPuyo.*;
+import javax.swing.JFrame;
 
 /**
  *
@@ -17,18 +17,22 @@ public class GameWindow extends javax.swing.JFrame {
     /**
      *
      */
-    public BoardPanel boardPanel;
+    private BoardPanel boardPanel;
+    private JFrame parentWindow;
             
     /**
      * Creates new form GameWindow
      */
-    public GameWindow(int mode) {
+    public GameWindow(JFrame parentWindow, int mode) {
         initComponents();
+        this.parentWindow = parentWindow;
         prepareGame(mode);
+        setLocationRelativeTo(null);
     }
     
     /**
      *
+     * @param mode
      */
     public void prepareGame(int mode){
         new Images();
@@ -36,6 +40,7 @@ public class GameWindow extends javax.swing.JFrame {
         GameLoop gl = new GameLoop(this, mode);
         this.mainPanel.add(boardPanel);
         gl.start();
+        setLocationRelativeTo(null);
     }
     
     /**
@@ -68,6 +73,11 @@ public class GameWindow extends javax.swing.JFrame {
      */
     public BoardPanel getBoardPanel(){
         return this.boardPanel;
+    }
+    
+    public void exitToMenu(){
+        this.setVisible(false);
+        parentWindow.setVisible(true);
     }
 
     /**

@@ -24,6 +24,7 @@ public class OptionsMenu extends javax.swing.JFrame {
     public OptionsMenu() {
         initComponents();
         setupConfig();
+        setLocationRelativeTo(null);
     }
     
     private void setupConfig(){

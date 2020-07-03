@@ -165,7 +165,7 @@ public class GameLoop extends Thread {
         try {
             FRAMERATE = 60;
             gw.addKeyListener(keym);
-            level = 1;
+            level = 0;
             switch(mode){
                 case 0:
                     mainGame();
@@ -177,6 +177,19 @@ public class GameLoop extends Thread {
                     mainGame();
             }
         } catch (InterruptedException | IOException ex) {
+        } catch (NoChallengesException nce){
+            JOptionPane optionPane = new JOptionPane("No challenges Found", JOptionPane.ERROR_MESSAGE);    
+            JDialog dialog = optionPane.createDialog("Challenge error");
+            dialog.setAlwaysOnTop(true);
+            dialog.setVisible(true);
+        }finally{
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Go back to the main menu?", "Back to menu", dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                gw.exitToMenu();
+            }else{
+                System.exit(0);
+            }
         }
     }
 
@@ -289,22 +302,23 @@ public class GameLoop extends Thread {
         if (dialogResult == JOptionPane.YES_OPTION) {
             updateText.setText("");
             this.mainGame();
-        } else {
-            System.exit(0);
         }
     }
     
-    public void challengeMode() throws InterruptedException, IOException{
+    public void challengeMode() throws InterruptedException, IOException,NoChallengesException{
         Board board;
         BlockDuo currentBlockDuo = null;
         Block checkingBlock;
         long auxScore;
-        boolean lose = false, win = false;
+        boolean lose = false, win = false, end = false;
         int nChains;
+
+        JOptionPane.showMessageDialog(null, ChallengeReader.challengeAmount() + " Challenges found.");
         
-        while(!lose){
+
+        while(!lose && !end){
             level++;
-            board = ChallengeReader.readChallenge((int)(Math.random()*2));
+            board = ChallengeReader.readChallenge(ChallengeReader.selectChallenge());
             gamePanel.setBoard(board);
             lose = false;
             win = false;
@@ -324,10 +338,9 @@ public class GameLoop extends Thread {
 
                         //the level and turn ticks are calculated
                         if (score / 2000 + 4 < initTurnTicks) {
-                            turnTicks = initTurnTicks - (int) (score / 2000);
-                        } else {
-                            turnTicks = 4;
+                            turnTicks = Math.max(initTurnTicks - level, 4);
                         }
+                        
                         pointsLabel.setText("\nScore:" + score);
 
                         if (currentBlockDuo != null) {
@@ -371,7 +384,7 @@ public class GameLoop extends Thread {
                             }
                             
                             win = board.isEmpty();
-                            lose = !firstRowEmpty(board.getBoard()) || !(board.getSequence().size() > 0);
+                            lose = !(firstRowEmpty(board.getBoard()) && board.getSequence().size() > 0) && !win;
                             if(board.getSequence().size() > 0){
                                 currentBlockDuo = board.getSequence().remove();
                                 currentBlockDuo.setBoard(board);
@@ -388,17 +401,15 @@ public class GameLoop extends Thread {
             if(win){
                 updateText.setText("YOU WIN!!");
                 levelLabel.setText("Level:" + level);
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+                int dialogResult = JOptionPane.showConfirmDialog(null, "Continue to next Challenge?", "continue", dialogButton);
+                end = dialogResult == JOptionPane.NO_OPTION;
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    updateText.setText("");
+                }
             }else{
                 updateText.setText("YOU LOSE.");
-            }
-
-            //once the player loses, a popup will ask him if he wants to restart
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(null, "Continue?", "Info", dialogButton);
-            if (dialogResult == JOptionPane.YES_OPTION) {
-                updateText.setText("");
-            } else {
-                System.exit(0);
+                JOptionPane.showMessageDialog(null, "You Lost", "You lost", JOptionPane.INFORMATION_MESSAGE);
             }
             currentBlockDuo = null;
         }
