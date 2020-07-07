@@ -64,6 +64,7 @@ public class GameMultiWindow extends javax.swing.JFrame {
         for(BoardPanel bp : boardPanels){
             this.mainPanel.add(bp);
             GameMultiLoop gl = new GameMultiLoop(this, i);
+            this.gameLoops.add(gl);
             gl.start();
             i++;
         }
@@ -80,10 +81,21 @@ public class GameMultiWindow extends javax.swing.JFrame {
     public void attackOponents(int id, long score) throws InterruptedException{
         for(GameMultiLoop gml : gameLoops){
             if(gml.getPlayer() != id){
-                gml.oponentAttack((int)(score/2000));
+                gml.receiveAttack((int)(score/15000));
             }
         }
     }
+    
+    public boolean hasWon(int id){
+        boolean result = true;
+        for(GameMultiLoop gml : gameLoops){
+            if(gml.getPlayer() != id && result){
+                result = gml.isLose();
+            }
+        }
+        return result;
+    }
+    
     /**
      *
      * @return

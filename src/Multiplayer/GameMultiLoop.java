@@ -10,6 +10,8 @@ import JPuyo.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.*;
 import javax.swing.*;
         
@@ -29,6 +31,7 @@ public class GameMultiLoop extends Thread {
     private int turnTicks;
     private final int initTurnTicks, player;
     private final Semaphore semaphore;
+    private boolean win, lose;
 
     /**
      * Constuctor for GameLoop given a game window
@@ -42,8 +45,10 @@ public class GameMultiLoop extends Thread {
         this.keym = new KeyManager(player);
         initTurnTicks = 35;
         turnTicks = initTurnTicks;
-        semaphore = new Semaphore(1);
+        semaphore = new Semaphore(1, true);
         this.player = player;
+        win = false;
+        lose = false;
     }
     
     /**
@@ -101,6 +106,24 @@ public class GameMultiLoop extends Thread {
     public int getPlayer() {
         return player;
     }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    public boolean isLose() {
+        return lose;
+    }
+
+    public void setLose(boolean lose) {
+        this.lose = lose;
+    }
+    
+    
     
     /**
      *
@@ -123,14 +146,16 @@ public class GameMultiLoop extends Thread {
             gw.addKeyListener(keym);
             multiplayerGame();
         } catch (InterruptedException | IOException ex) {
-            ex.printStackTrace();
         }finally{
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(null, "Go back to the main menu?", "Back to menu", dialogButton);
-            if (dialogResult == JOptionPane.YES_OPTION) {
-                gw.exitToMenu();
-            }else{
-                System.exit(0);
+            if(win){
+                JOptionPane.showMessageDialog(null, "Player " + (this.player+1) + " wins!", "YOU WIN!", JOptionPane.INFORMATION_MESSAGE);
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+                int dialogResult = JOptionPane.showConfirmDialog(null, "Go back to the main menu?", "Back to menu", dialogButton);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    gw.exitToMenu();
+                }else{
+                    System.exit(0);
+                }
             }
         }
     }
@@ -146,10 +171,10 @@ public class GameMultiLoop extends Thread {
         BlockDuo currentBlockDuo = null;
         Block checkingBlock;
         long auxScore;
-        boolean lose = false;
         int nChains;
         gamePanel.setBoard(board);
-        for (timer = 0; !lose; timer++) {
+        this.semaphore.acquire();
+        for (timer = 0; !lose && !win; timer++) {
             //makes a millisecond passs
             sleep(1);
 
@@ -159,8 +184,6 @@ public class GameMultiLoop extends Thread {
                 //the block falls after a given number of frames have passed
                 if (((timer) % ((1000 / (FRAMERATE)) * turnTicks)) == 0) {
                 //no input can be recieved until the end of the turn
-                    semaphore.acquire();
-                    
                     keym.deactivateTurn();
 
                     if (currentBlockDuo != null) {
@@ -171,6 +194,8 @@ public class GameMultiLoop extends Thread {
                     }
 
                     if (currentBlockDuo == null || !currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()) {
+                        this.semaphore.release();
+                        this.semaphore.acquire();
                         lose = !firstRowEmpty(board.getBoard());
                         board.getSequence().add(new BlockDuo(WIDTH/2, 0));
                         if(board.getSequence().size() > 0){
@@ -204,17 +229,16 @@ public class GameMultiLoop extends Thread {
                             //updateText.setText("");
                         }
                         
-                        if(score > 2500){
+                        if(score > 1500){
                             attack();
-                            score = 0;
                         }
+                        
                     }
                     
                     
                     //the turn has ended, the player can now control the blocks
                     keym.activateTurn();
-                    
-                    semaphore.release();
+                    win = gw.hasWon(this.player);
                 }
                 displayBoard(board);
             }
@@ -226,15 +250,16 @@ public class GameMultiLoop extends Thread {
      * @param amount
      * @throws InterruptedException
      */
-    public void oponentAttack(int amount) throws InterruptedException{
+    public void receiveAttack(int amount) throws InterruptedException{
         semaphore.acquire();
-        System.out.println("hey");
         
         ArrayList<Block> generatedBlocks = new ArrayList<>();
         
-        for(int i = 0; i < amount; i++){
-            generatedBlocks.add(board.spawnBlock(i/board.getWidth(), i%board.getWidth(), 'X', true));
-        }
+        //for(int i = 0; i < amount; i++){
+            for(int j = 0; j < this.board.getWidth(); j++){
+                generatedBlocks.add(board.spawnBlock(0, j, 'X', true));
+            }
+        //}
         
         displayBoard(board);
         sleep(500);
@@ -242,15 +267,23 @@ public class GameMultiLoop extends Thread {
         for(Block b : generatedBlocks){
             b.drop();
         }
-        System.out.println("you got destroyed :)");
         semaphore.release();
     }
     
     /**
      * sends clear blocks to the opponent
+     * @throws java.lang.InterruptedException
      */
-    public void attack(){
-        
+    public void attack() throws InterruptedException{
+        Runnable r1 = () -> {
+            try {
+                gw.attackOponents(this.player, this.score);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GameMultiLoop.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        };
+        new Thread(r1).start();
+        this.score = 0;
     }
     
     /**

@@ -42,7 +42,7 @@ public class GameLoop extends Thread {
         this.pointsLabel = gw.getPointsLabel();
         this.updateText = gw.getupdateText();
         this.levelLabel = gw.getLevelLabel();
-        this.keym = new KeyManager(1);
+        this.keym = new KeyManager(0);
         initTurnTicks = 35;
         turnTicks = initTurnTicks;
         this.mode = mode;
