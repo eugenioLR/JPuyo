@@ -5,8 +5,9 @@
  */
 package DuoGame;
 
-import JPuyo.BoardPanel;
-import JPuyo.Images;
+import JPuyo.*;
+import java.awt.*;
+import javax.swing.*;
 
 /**
  *
@@ -17,25 +18,35 @@ public class GameWindow extends javax.swing.JFrame {
     /**
      *
      */
-    public BoardPanel boardPanel;
+    private BoardPanel boardPanel;
+    private final JFrame parentWindow;
             
     /**
      * Creates new form GameWindow
+     * @param parentWindow
+     * @param mode
      */
-    public GameWindow() {
+    public GameWindow(JFrame parentWindow, int mode) {
         initComponents();
-        prepareGame();
+        this.parentWindow = parentWindow;
+        prepareGame(mode);
+        setLocationRelativeTo(parentWindow);
+        setResizable(false);
     }
     
     /**
      *
+     * @param mode
      */
-    public void prepareGame(){
-        new Images();
+    public void prepareGame(int mode){
+        new ImageLoader();
         this.boardPanel = new BoardPanel(8, 12);
-        GameLoop gl = new GameLoop(this);
-        this.add(boardPanel);
+        this.getContentPane().setPreferredSize(new Dimension(boardPanel.getWidth() + 100, boardPanel.getHeight()));
+        this.pack();
+        GameLoop gl = new GameLoop(this, mode);
+        this.mainPanel.add(boardPanel);
         gl.start();
+        setLocationRelativeTo(null);
     }
     
     /**
@@ -69,6 +80,22 @@ public class GameWindow extends javax.swing.JFrame {
     public BoardPanel getBoardPanel(){
         return this.boardPanel;
     }
+    
+    /**
+     *
+     * @return
+     */
+    public JPanel getMainFrame() {
+        return this.mainPanel;
+    }
+    
+    /**
+     * goes back to the main menu
+     */
+    public void exitToMenu(){
+        this.setVisible(false);
+        parentWindow.setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,42 +106,59 @@ public class GameWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainPanel = new javax.swing.JPanel();
+        levelLabel = new javax.swing.JLabel();
         pointsLabel = new javax.swing.JLabel();
         updateText = new javax.swing.JLabel();
-        levelLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        mainPanel.setBackground(new java.awt.Color(15, 15, 15));
+
+        levelLabel.setForeground(new java.awt.Color(255, 255, 255));
+        levelLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        levelLabel.setText("Level:0");
+
+        pointsLabel.setForeground(new java.awt.Color(255, 255, 255));
         pointsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pointsLabel.setText("35 points");
 
+        updateText.setForeground(new java.awt.Color(255, 255, 255));
         updateText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        levelLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        levelLabel.setText("Level:0");
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap(227, Short.MAX_VALUE)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pointsLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(levelLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(pointsLabel)
+                .addGap(18, 18, 18)
+                .addComponent(levelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(updateText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(423, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(updateText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pointsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                    .addComponent(levelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(pointsLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(levelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(updateText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -123,6 +167,7 @@ public class GameWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel levelLabel;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel pointsLabel;
     private javax.swing.JLabel updateText;
     // End of variables declaration//GEN-END:variables

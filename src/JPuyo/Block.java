@@ -5,6 +5,7 @@
  */
 package JPuyo;
 
+import DuoGame.Colors;
 import DuoGame.GameLoop;
 
 /**
@@ -22,7 +23,7 @@ public class Block {
      * Constructor for the class Block
      */
     public Block() {
-        this.color = GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1));
+        this.color = Colors.getCOLORS().get(GameLoop.randInt(0, Colors.getCOLORS().size() - 1));
         this.position[0] = 0;
         this.position[1] = 0;
         this.active = true;
@@ -112,8 +113,8 @@ public class Block {
      * @return
      */
     public boolean setPosition(int[] position) {
-        boolean xInBounds = position[0] > 0 && position[0] < board.getWidth();
-        boolean yInBounds = position[1] > 0 && position[1] < board.getHeight();
+        boolean xInBounds = 0 <= position[0] && position[0] < board.getWidth();
+        boolean yInBounds = 0 <= position[1] && position[1] < board.getHeight();
         if (xInBounds && yInBounds) {
             this.position = position;
         }
@@ -171,14 +172,14 @@ public class Block {
     }
 
     /**
-     *
+     * Activates a block
      */
     public void activate() {
         this.active = true;
     }
 
     /**
-     *
+     * Deactivates a block
      */
     public void deactivate() {
         this.active = false;

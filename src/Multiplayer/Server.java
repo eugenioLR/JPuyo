@@ -15,12 +15,34 @@ import java.net.*;
  */
 public class Server extends Thread {
 
+    /**
+     *
+     */
     public ServerSocket server;
+
+    /**
+     *
+     */
     public Socket connection;
+
+    /**
+     *
+     */
     public DataOutputStream output;
+
+    /**
+     *
+     */
     public DataInputStream input;
+
+    /**
+     *
+     */
     public GameLoop game;
 
+    /**
+     * the code teh thread will execute
+     */
     @Override
     public void run() {
 

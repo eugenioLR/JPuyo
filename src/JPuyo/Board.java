@@ -6,9 +6,9 @@
 package JPuyo;
 
 import DuoGame.BlockDuo;
+import DuoGame.Colors;
 import DuoGame.GameLoop;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  *
@@ -18,6 +18,7 @@ public class Board {
 
     private final Block board[][];
     private int width, height;
+    private final Queue<BlockDuo> sequence;
 
     /**
      * Constructor for the class Board
@@ -28,6 +29,20 @@ public class Board {
         this.board = new Block[height][width];
         this.width = width;
         this.height = height;
+        sequence = new LinkedList<>();
+    }
+    
+    /**
+     * Constructor for the class Board
+     * @param width
+     * @param height
+     * @param sequence
+     */
+    public Board(int width, int height, Queue<BlockDuo> sequence) {
+        this.board = new Block[height][width];
+        this.width = width;
+        this.height = height;
+        this.sequence = sequence;
     }
 
     /**
@@ -90,7 +105,7 @@ public class Board {
      * @return
      */
     public Block getBlockAt(int pos[]) {
-        if ((pos[1] >= 0 && pos[1] < height) && (pos[0] >= 0 && pos[0] < width)) {
+        if ((0 <= pos[1] && pos[1] < height) && (0 <= pos[0] && pos[0] < width)) {
             return board[pos[1]][pos[0]];
         } else {
             return null;
@@ -99,13 +114,43 @@ public class Board {
 
     /**
      *
+     * @return
+     */
+    public Queue<BlockDuo> getSequence(){
+        return this.sequence;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public BlockDuo nextBlock(){
+        return this.sequence.peek();
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public boolean isEmpty(){
+        boolean empty = true;
+        for(int i = 0; i < this.getBoard().length && empty; i++){
+            for(int j = 0; j < this.getBoard()[i].length && empty; j++){
+                empty = this.getBlockAt(j, i) == null;
+            }
+        }
+        return empty;
+    }
+    
+    /**
+     *
      * @param block
      */
     public void placeInBoard(Block block) {
         int y = block.getPositionY();
         int x = block.getPositionX();
 
-        if (y < height && y > -1) {
+        if (0 <= y && y < height) {
             board[y][x] = block;
         } else if (y >= height) {
             block.setPositionY(y - 1);
@@ -113,6 +158,28 @@ public class Board {
         } else {
             block.setPositionY(y + 1);
             this.placeInBoard(block);
+        }
+    }
+    
+    /**
+     *
+     * @param duo
+     */
+    public void placeInBoard(BlockDuo duo) {
+        int y = duo.getPivot().getPositionY();
+        int x = duo.getPivot().getPositionX();
+
+        if (1 <= y && y < height-1) {
+            board[y][x] = duo.getPivot();
+            board[y-1][x] = duo.getExtension();
+        } else if (y >= height) {
+            duo.getPivot().setPositionY(y - 1);
+            duo.getExtension().setPositionY(y - 1);
+            this.placeInBoard(duo);
+        } else {
+            duo.getPivot().setPositionY(y + 1);
+            duo.getExtension().setPositionY(y + 1);
+            this.placeInBoard(duo);
         }
     }
 
@@ -135,7 +202,7 @@ public class Board {
 
     
     /**
-     * 
+     * removes every block from the board
      */
     public void clearBoard(){
         for(int i = 0; i < this.width; i++){
@@ -156,7 +223,21 @@ public class Board {
         board[0][row].setBoard(this);
         return board[0][row];
     }
-
+    
+    /**
+     *
+     * @param column
+     * @param row
+     * @param color
+     * @param active
+     * @return
+     */
+    public Block spawnBlock(int column, int row, char color, boolean active) {
+        board[column][row] = new Block(color, row, column, active);
+        board[column][row].setBoard(this);
+        return board[column][row];
+    }
+    
     /**
      *
      * @param row
@@ -192,7 +273,7 @@ public class Board {
         char color;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                color = GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1));
+                color = Colors.getCOLORS().get(GameLoop.randInt(0, Colors.getCOLORS().size() - 1));
                 board[i][j] = new Block(color, i, j);
             }
         }
@@ -290,19 +371,14 @@ public class Board {
         }
         return posChecked;
     }
-
-    /**
-     *
-     */
-    public void update() {}
-
+    
     /**
      * Displays the contents of the board on a terminal
      * [Just for debugging/testing purposes]
      */
     public void drawTerminal() {
         Block block;
-        System.out.println("");
+        System.out.println();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 block = board[i][j];

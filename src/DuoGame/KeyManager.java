@@ -20,13 +20,40 @@ public class KeyManager implements KeyListener {
 
     private BlockDuo currentBlock;
     private boolean turnActive;
+    private final int right,left,rotateR,rotateL,drop,fall;
 
     /**
      * Constructor for the class KeyManager
+     * @param layout
      */
-    public KeyManager() {
+    public KeyManager(int layout) {
         super();
         turnActive = false;
+        switch(layout){
+            case 0:
+                right = KeyEvent.VK_D;
+                left = KeyEvent.VK_A;
+                rotateR = KeyEvent.VK_E;
+                rotateL = KeyEvent.VK_Q;
+                drop = KeyEvent.VK_W;
+                fall = KeyEvent.VK_S;
+                break;
+            case 1:
+                right = KeyEvent.VK_RIGHT;
+                left = KeyEvent.VK_LEFT;
+                rotateR = KeyEvent.VK_M;
+                rotateL = KeyEvent.VK_N;
+                drop = KeyEvent.VK_UP;
+                fall = KeyEvent.VK_DOWN;
+                break;
+            default:
+                right = KeyEvent.VK_D;
+                left = KeyEvent.VK_A;
+                rotateR = KeyEvent.VK_E;
+                rotateL = KeyEvent.VK_Q;
+                drop = KeyEvent.VK_W;
+                fall = KeyEvent.VK_S;
+        }
     }
 
     /**
@@ -79,26 +106,22 @@ public class KeyManager implements KeyListener {
                 wait();
             } catch (InterruptedException ex) {}
         }
+        
         if (currentBlock != null) {
-            switch (e.getKeyChar()) {
-                case 'a':
-                    currentBlock.left();
-                    break;
-                case 'd':
-                    currentBlock.right();
-                    break;
-                case 's':
-                    currentBlock.fall();
-                    break;
-                case 'w':
-                    currentBlock.drop();
-                    break;
-                case 'q':
-                    currentBlock.rotateL();
-                    break;
-                case 'e':
-                    currentBlock.rotateR();
-                    break;
+            int code = e.getKeyCode();
+            
+            if(code == this.right){
+                currentBlock.right();
+            }else if(code == this.left){
+                currentBlock.left();
+            }else if(code == this.fall){
+                currentBlock.fall();
+            }else if(code == this.drop){
+                currentBlock.drop();
+            }else if(code == this.rotateL){
+                currentBlock.rotateL();
+            }else if(code == this.rotateR){
+                currentBlock.rotateR();
             }
         }
     }

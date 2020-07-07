@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
  *
  * @author ACER
  */
-public final class Images {
+public final class ImageLoader {
 
     /**
      *
@@ -84,7 +84,7 @@ public final class Images {
     /**
      * Constructor for the class Images
      */
-    public Images() {
+    public ImageLoader() {
         this.init();
     }
     

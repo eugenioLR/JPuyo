@@ -5,7 +5,7 @@
  */
 package Multiplayer;
 
-import JPuyo.MenuWindow;
+import javax.swing.JFrame;
 
 /**
  *
@@ -13,17 +13,19 @@ import JPuyo.MenuWindow;
  */
 public class ServerClientSelect extends javax.swing.JFrame {
 
-    public MenuWindow mainMenu;
+    /**
+     *
+     */
+    public JFrame parentWindow;
     
     /**
      * Creates new form ServerClientSelect
+     * @param mainMenu
      */
-    public ServerClientSelect() {
+    public ServerClientSelect(JFrame parentWindow) {
         initComponents();
-    }
-
-    public void setMainMenu(MenuWindow mainMenu) {
-        this.mainMenu = mainMenu;
+        setLocationRelativeTo(parentWindow);
+        this.parentWindow = parentWindow;
     }
 
     /**
@@ -58,7 +60,7 @@ public class ServerClientSelect extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Multiplayer");
+        jLabel1.setText("Host or Guest?");
 
         exitButton.setText("Exit");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -115,7 +117,7 @@ public class ServerClientSelect extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
-        this.mainMenu.setVisible(true);
+        this.parentWindow.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_exitButtonActionPerformed
 

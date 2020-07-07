@@ -19,13 +19,37 @@ public class BlockDuo {
     private int degrees;
 
     /**
+     *
+     * @param color1
+     * @param color2
+     */
+    public BlockDuo(char color1, char color2){
+        this.pivot = new Block(color1);
+        this.extension = new Block(color2);
+        degrees = 90;
+    }
+    
+    /**
      * Constructor for the class BlockDuo
      * @param x
      * @param y
      */
     public BlockDuo(int x, int y) {
-        this.pivot = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y + 1);
-        this.extension = new Block(GameLoop.getCOLORS().get(GameLoop.randInt(0, GameLoop.getCOLORS().size() - 1)), x, y);
+        this.pivot = new Block(Colors.getCOLORS().get(GameLoop.randInt(0, Colors.getCOLORS().size() - 1)), x, y + 1);
+        this.extension = new Block(Colors.getCOLORS().get(GameLoop.randInt(0, Colors.getCOLORS().size() - 1)), x, y);
+        degrees = 90;
+    }
+    
+    /**
+     * Constructor for the class BlockDuo
+     * @param x
+     * @param y
+     * @param color1
+     * @param color2
+     */
+    public BlockDuo(int x, int y, char color1, char color2) {
+        this.pivot = new Block(color1, x, y + 1);
+        this.extension = new Block(color2, x, y);
         degrees = 90;
     }
     
@@ -80,6 +104,8 @@ public class BlockDuo {
      */
     public void setBoard(Board board) {
         this.board = board;
+        this.pivot.setBoard(board);
+        this.extension.setBoard(board);
     }
     
     /**
@@ -136,8 +162,8 @@ public class BlockDuo {
         
         
         boolean canRotate = this.board.getBlockAt(newPos) == null 
-                && newPos[0] >= 0 && newPos[0] < this.board.getWidth()
-                && newPos[1] >= 0 && newPos[1] < this.board.getHeight();
+                && 0 <= newPos[0] && newPos[0] < this.board.getWidth()
+                && 0 <= newPos[1] && newPos[1] < this.board.getHeight();
         
         if(canRotate){
             this.degrees = newDegrees;
@@ -158,8 +184,8 @@ public class BlockDuo {
         
         
         boolean canRotate = this.board.getBlockAt(newPos) == null 
-                && newPos[0] >= 0 && newPos[0] < this.board.getWidth()
-                && newPos[1] >= 0 && newPos[1] < this.board.getHeight();
+                && 0 <= newPos[0] && newPos[0] < this.board.getWidth()
+                && 0 <= newPos[1] && newPos[1] < this.board.getHeight();
         
         if(canRotate){
             this.degrees = newDegrees;
@@ -210,6 +236,13 @@ public class BlockDuo {
         if (!this.pivot.isActive() && !this.extension.isActive()) {
             drop();
         }
+    }
+
+    /**
+     *
+     * @param i
+     */
+    public void setPosition(int[] i) {
     }
 
 }

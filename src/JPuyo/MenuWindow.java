@@ -6,7 +6,7 @@
 package JPuyo;
 
 import DuoGame.*;
-import Multiplayer.ServerClientSelect;
+import Multiplayer.LocalOnlineWindow;
 /**
  *
  * @author eugeniolr
@@ -18,6 +18,8 @@ public class MenuWindow extends javax.swing.JFrame {
      */
     public MenuWindow() {
         initComponents();
+        Colors.readActiveColors();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -33,7 +35,8 @@ public class MenuWindow extends javax.swing.JFrame {
         Exit = new javax.swing.JButton();
         Title = new javax.swing.JLabel();
         playButton = new javax.swing.JButton();
-        multiplayerButton = new javax.swing.JButton();
+        ChallengesButton = new javax.swing.JButton();
+        MultiButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,10 +66,17 @@ public class MenuWindow extends javax.swing.JFrame {
             }
         });
 
-        multiplayerButton.setText("Multiplayer");
-        multiplayerButton.addActionListener(new java.awt.event.ActionListener() {
+        ChallengesButton.setText("Challenges");
+        ChallengesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                multiplayerButtonActionPerformed(evt);
+                ChallengesButtonActionPerformed(evt);
+            }
+        });
+
+        MultiButton.setText("Multiplayer");
+        MultiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MultiButtonActionPerformed(evt);
             }
         });
 
@@ -75,18 +85,22 @@ public class MenuWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(198, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Options, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(multiplayerButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(playButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(Title)))))
+                .addContainerGap(200, Short.MAX_VALUE)
+                .addComponent(Title)
                 .addContainerGap(190, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ChallengesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Exit, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(Options, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(MultiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(189, 189, 189))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,9 +108,11 @@ public class MenuWindow extends javax.swing.JFrame {
                 .addContainerGap(60, Short.MAX_VALUE)
                 .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ChallengesButton)
+                    .addComponent(playButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(multiplayerButton)
+                .addComponent(MultiButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Options)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -121,17 +137,22 @@ public class MenuWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        GameWindow gw = new GameWindow();
+        GameWindow gw = new GameWindow(this,0);
         gw.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_playButtonActionPerformed
 
-    private void multiplayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multiplayerButtonActionPerformed
-        ServerClientSelect scs = new ServerClientSelect();
-        scs.setVisible(true);
-        scs.setMainMenu(this);
+    private void ChallengesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChallengesButtonActionPerformed
+        GameWindow gw = new GameWindow(this,1);
+        gw.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_multiplayerButtonActionPerformed
+    }//GEN-LAST:event_ChallengesButtonActionPerformed
+
+    private void MultiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MultiButtonActionPerformed
+        LocalOnlineWindow low = new LocalOnlineWindow(this);
+        low.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_MultiButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,10 +190,11 @@ public class MenuWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ChallengesButton;
     private javax.swing.JButton Exit;
+    private javax.swing.JButton MultiButton;
     private javax.swing.JButton Options;
     private javax.swing.JLabel Title;
-    private javax.swing.JButton multiplayerButton;
     private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables
 }

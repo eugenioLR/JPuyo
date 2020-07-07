@@ -17,13 +17,14 @@ import java.util.regex.Pattern;
  */
 public class OptionsMenu extends javax.swing.JFrame {
 
-    private javax.swing.JFrame parentMenu;
+    private javax.swing.JFrame parentWindow;
     /**
      * Creates new form OptionsMenu
      */
     public OptionsMenu() {
         initComponents();
         setupConfig();
+        setLocationRelativeTo(parentWindow);
     }
     
     private void setupConfig(){
@@ -310,7 +311,7 @@ public class OptionsMenu extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         this.setVisible(false);
-        this.parentMenu.setVisible(true);
+        this.parentWindow.setVisible(true);
     }//GEN-LAST:event_exitActionPerformed
 
     private void blueTickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueTickActionPerformed
@@ -346,7 +347,7 @@ public class OptionsMenu extends javax.swing.JFrame {
      * @param parentMenu
      */
     public void setParentMenu(javax.swing.JFrame parentMenu) {
-        this.parentMenu = parentMenu;
+        this.parentWindow = parentMenu;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
