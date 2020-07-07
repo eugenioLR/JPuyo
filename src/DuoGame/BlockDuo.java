@@ -14,7 +14,7 @@ import JPuyo.Board;
 
 public class BlockDuo {
 
-    private Block pivot, extension;
+    private final Block pivot, extension;
     private Board board;
     private int degrees;
 

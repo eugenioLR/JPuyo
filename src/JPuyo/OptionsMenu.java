@@ -86,8 +86,7 @@ public class OptionsMenu extends javax.swing.JFrame {
             transTick.setSelected(true);
         }
         
-        try {
-            FileWriter fw = new FileWriter("jpuyo.conf");
+        try (FileWriter fw = new FileWriter("jpuyo.conf")) {
             fw.write("COLORS:");
             if(blueTick.isSelected()){
                 fw.write("B,");
@@ -110,7 +109,6 @@ public class OptionsMenu extends javax.swing.JFrame {
             if(transTick.isSelected()){
                 fw.write("X");
             }
-            fw.close();
         } catch (IOException ex) {}
     }
 

@@ -9,7 +9,6 @@ import JPuyo.*;
 import challengeMode.*;
 import java.io.*;
 import java.util.*;
-import java.util.regex.*;
 import javax.swing.*;
 
 /**
@@ -196,14 +195,7 @@ public class GameLoop extends Thread {
                     }
 
                     if (currentBlockDuo == null || !currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()) {
-                        lose = !firstRowEmpty(board.getBoard());
-                        board.getSequence().add(new BlockDuo(WIDTH/2, 0));
-                        if(board.getSequence().size() > 0){
-                            currentBlockDuo = board.getSequence().remove();
-                            currentBlockDuo.setBoard(board);
-                            board.placeInBoard(currentBlockDuo);
-                            keym.setCurrentBlock(currentBlockDuo);
-                        }
+                        
                         keym.setCurrentBlock(currentBlockDuo);
                         //will clear all the chains on the board one by one
                         nChains = 0;
@@ -212,7 +204,7 @@ public class GameLoop extends Thread {
                             for (int i = HEIGHT - 1; i > 0; i--) {
                                 for (int j = 0; j < WIDTH; j++) {
                                     checkingBlock = board.getBoard()[i][j];
-                                    if (checkingBlock != null && checkingBlock != currentBlockDuo.getPivot()) {
+                                    if (checkingBlock != null) {
                                         checkingBlock.drop();
                                     }
                                 }
@@ -235,6 +227,15 @@ public class GameLoop extends Thread {
                             //some time will be given to the player to see the state of the board
                             sleep(750);
                             updateText.setText("");
+                        }
+                        
+                        lose = !firstRowEmpty(board.getBoard());
+                        board.getSequence().add(new BlockDuo(WIDTH/2, 0));
+                        if(board.getSequence().size() > 0){
+                            currentBlockDuo = board.getSequence().remove();
+                            currentBlockDuo.setBoard(board);
+                            board.placeInBoard(currentBlockDuo);
+                            keym.setCurrentBlock(currentBlockDuo);
                         }
                     }
                     //the turn has ended, the player can now control the blocks
@@ -266,7 +267,7 @@ public class GameLoop extends Thread {
         BlockDuo currentBlockDuo = null;
         Block checkingBlock;
         long auxScore;
-        boolean lose = false, win = false, end = false;
+        boolean lose = false, win, end = false;
         int nChains;
 
         JOptionPane.showMessageDialog(null, ChallengeReader.challengeAmount() + " Challenges found.");

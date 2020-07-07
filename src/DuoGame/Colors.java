@@ -53,9 +53,9 @@ public class Colors {
      */
     private static void createConfigFile() {
         try {
-            FileWriter fw = new FileWriter("jpuyo.conf");
-            fw.write("COLORS:B,G,Y,O,R,P,X");
-            fw.close();
+            try (FileWriter fw = new FileWriter("jpuyo.conf")) {
+                fw.write("COLORS:B,G,Y,O,R,P,X");
+            }
         } catch (IOException ex) {
         }
     }

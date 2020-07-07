@@ -10,9 +10,6 @@ import JPuyo.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.*;
 import javax.swing.*;
         
 /**
@@ -28,7 +25,7 @@ public class GameMultiLoop extends Thread {
     private final BoardPanel gamePanel;
     private final GameMultiWindow gw;
     private final KeyManager keym;
-    private int turnTicks;
+    private final int turnTicks;
     private final int initTurnTicks, player;
     private final Semaphore semaphore;
     private boolean win, lose;
@@ -195,16 +192,7 @@ public class GameMultiLoop extends Thread {
 
                     if (currentBlockDuo == null || !currentBlockDuo.getPivot().isActive() || !currentBlockDuo.getExtension().isActive()) {
                         this.semaphore.release();
-                        this.semaphore.acquire();
-                        lose = !firstRowEmpty(board.getBoard());
-                        board.getSequence().add(new BlockDuo(WIDTH/2, 0));
-                        if(board.getSequence().size() > 0){
-                            currentBlockDuo = board.getSequence().remove();
-                            currentBlockDuo.setBoard(board);
-                            board.placeInBoard(currentBlockDuo);
-                            keym.setCurrentBlock(currentBlockDuo);
-                        }
-                        
+                        this.semaphore.acquire();                        
                         keym.setCurrentBlock(currentBlockDuo);
                         //will clear all the chains on the board one by one
                         nChains = 0;
@@ -227,10 +215,31 @@ public class GameMultiLoop extends Thread {
                             //some time will be given to the player to see the state of the board
                             sleep(750);
                             //updateText.setText("");
+                            for (int i = HEIGHT - 1; i > 0; i--) {
+                                for (int j = 0; j < WIDTH; j++) {
+                                    checkingBlock = board.getBoard()[i][j];
+                                    if (checkingBlock != null) {
+                                        checkingBlock.drop();
+                                    }
+                                }
+                            }
+                            
+                            score += auxScore * nChains;
+
+                            //the state of the board once a chain is cleared is s
                         }
                         
                         if(score > 1500){
                             attack();
+                        }
+                        
+                        lose = !firstRowEmpty(board.getBoard());
+                        board.getSequence().add(new BlockDuo(WIDTH/2, 0));
+                        if(board.getSequence().size() > 0){
+                            currentBlockDuo = board.getSequence().remove();
+                            currentBlockDuo.setBoard(board);
+                            board.placeInBoard(currentBlockDuo);
+                            keym.setCurrentBlock(currentBlockDuo);
                         }
                         
                     }
@@ -278,9 +287,7 @@ public class GameMultiLoop extends Thread {
         Runnable r1 = () -> {
             try {
                 gw.attackOponents(this.player, this.score);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(GameMultiLoop.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (InterruptedException ex) {}
         };
         new Thread(r1).start();
         this.score = 0;

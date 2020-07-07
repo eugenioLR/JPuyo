@@ -20,7 +20,7 @@ public class ServerClientSelect extends javax.swing.JFrame {
     
     /**
      * Creates new form ServerClientSelect
-     * @param mainMenu
+     * @param parentWindow
      */
     public ServerClientSelect(JFrame parentWindow) {
         initComponents();

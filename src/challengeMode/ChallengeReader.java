@@ -92,8 +92,8 @@ public class ChallengeReader {
             throw new NoChallengesException();
         }
         File[] challenges = (new File("challenges/")).listFiles();
-        for(int i = 0; i < challenges.length; i++){
-            if(Pattern.compile("challenge[0-9]+.json").matcher(challenges[i].getName()).find()){
+        for (File challenge : challenges) {
+            if (Pattern.compile("challenge[0-9]+.json").matcher(challenge.getName()).find()) {
                 counter++;
             }
         }
@@ -107,9 +107,9 @@ public class ChallengeReader {
     public static String selectChallenge() {
         File[] challenges = (new File("challenges/")).listFiles();
         ArrayList<String> validChallenges = new ArrayList<>();
-        for(int i = 0; i < challenges.length; i++){
-            if(Pattern.compile("challenge[0-9]+.json").matcher(challenges[i].getName()).find()){
-                validChallenges.add(challenges[i].getName());
+        for (File challenge : challenges) {
+            if (Pattern.compile("challenge[0-9]+.json").matcher(challenge.getName()).find()) {
+                validChallenges.add(challenge.getName());
             }
         }
         System.out.println(validChallenges.get((int)(Math.random() * validChallenges.size())));
